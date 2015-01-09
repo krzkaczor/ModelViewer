@@ -7,6 +7,7 @@
 //
 
 #import "MasterViewController.h"
+#import "TriangleRenderer.h"
 
 @interface MasterViewController ()
 
@@ -14,9 +15,13 @@
 
 @implementation MasterViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+- (void)loadView {
+    [super loadView];
+
+    CGSize cgSize = CGSizeMake(300, 300);
+    TriangleRenderer* renderer = [[TriangleRenderer alloc] init];
+    self.topLeftImage.image = [renderer renderTriangle:0 onScreen:cgSize];
+    self.bottomLeftImage.image = [renderer renderTriangle:0 onScreen:cgSize];
 }
 
 @end
