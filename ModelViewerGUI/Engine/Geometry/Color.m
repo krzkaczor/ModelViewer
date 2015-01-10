@@ -47,4 +47,8 @@
 + (Color *)black {
     return [Color colorWithR:0 g:0 b:0];
 }
+
++ (Color *)white {
+    return [Color colorWithR:1 g:1 b:1];
+}
 @end

@@ -6,6 +6,13 @@
 #import <Foundation/Foundation.h>
 #import "Renderer.h"
 
+@class Scene;
+@class Camera;
+@class TriangleRenderer;
 
-@interface SceneRenderer : NSObject<Renderer>
+
+@interface SceneRenderer : NSObject
+@property(nonatomic, strong) TriangleRenderer* triangleRenderer;
+
+- (NSImage *)renderScene:(Scene *)scene usingCamera:(Camera *)camera putAdditionalInfo:(BOOL)additionalInfo;
 @end

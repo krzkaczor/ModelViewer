@@ -18,7 +18,14 @@
 @property id<Projection> projection;
 @property int width, height;
 
+@property Vector* position;
+@property Vector* up;
+@property Vector* eyePosition;
+
+
 - (instancetype)initWithHeight:(int)height width:(int)width projection:(id <Projection>)projection;
+
+- (void)updateMatrix;
 
 + (instancetype)cameraWithHeight:(int)height width:(int)width projection:(id <Projection>)projection;
 

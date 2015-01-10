@@ -18,4 +18,6 @@
 + (Color *)red;
 
 + (Color *)black;
+
++ (Color *)white;
 @end

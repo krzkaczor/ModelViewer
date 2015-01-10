@@ -14,6 +14,10 @@
 
 @property (weak) IBOutlet NSImageView *topLeftImage;
 @property (weak) IBOutlet NSImageView *bottomLeftImage;
+@property (weak) IBOutlet NSImageView *topRightImage;
+@property (weak) IBOutlet NSImageView *bottomRightImage;
+
+
 
 @property (strong) Engine* engine;
 

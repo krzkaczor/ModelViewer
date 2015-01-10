@@ -2,21 +2,16 @@
 // Created by Krzysztof Kaczor on 1/2/15.
 //
 
-#import "JsonModelLoader.h"
+#import "JsonLoader.h"
 #import "SceneModel.h"
 #import "Vector.h"
 #import "Triangle.h"
 #import "Model.h"
 #import "YCMatrix+Affine3D.h"
-#import "DoublePoint.h"
 #import "Color.h"
 #import "LightSource.h"
-#import "Vertex.h"
-#import <AppKit/AppKit.h>
 
-
-//blob - refactor
-@implementation JsonModelLoader {
+@implementation JsonLoader {
 
 }
 - (SceneModel *)loadModelFromFile:(NSString *)path {

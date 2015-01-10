@@ -7,7 +7,6 @@
 @class SceneModel;
 @class LightSource;
 
-@protocol WorldObjectsLoader <NSObject>
+@protocol SceneModelLoader <NSObject>
 - (SceneModel* )loadModelFromFile:(NSString*)path;
-- (LightSource* )loadLightSourceFromFile:(NSString*)path;
 @end

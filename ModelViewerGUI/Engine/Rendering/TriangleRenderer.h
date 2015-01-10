@@ -17,5 +17,7 @@
 
 - (void)renderTriangle:(Triangle *)triangle;
 
+- (void)renderPoint:(DoublePoint *)v;
+
 - (NSImage *)finishRendering;
 @end

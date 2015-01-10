@@ -8,26 +8,36 @@
         <customObject id="-2" userLabel="File's Owner" customClass="MasterViewController">
             <connections>
                 <outlet property="bottomLeftImage" destination="1VB-OZ-hwH" id="wj8-o0-upN"/>
+                <outlet property="bottomRightImage" destination="7QI-pl-GbR" id="D9n-WJ-SKM"/>
                 <outlet property="topLeftImage" destination="gsg-yF-lWR" id="gmf-hZ-gFA"/>
+                <outlet property="topRightImage" destination="mni-J5-V7w" id="3i4-w3-gzy"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="810" height="810"/>
+            <rect key="frame" x="0.0" y="0.0" width="1000" height="910"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1VB-OZ-hwH">
-                    <rect key="frame" x="3" y="3" width="400" height="400"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="zXM-0M-yrV"/>
-                </imageView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsg-yF-lWR">
-                    <rect key="frame" x="3" y="407" width="400" height="400"/>
+                    <rect key="frame" x="3" y="507" width="400" height="400"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Zxw-ad-xaX"/>
                 </imageView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1VB-OZ-hwH">
+                    <rect key="frame" x="3" y="103" width="400" height="400"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="zXM-0M-yrV"/>
+                </imageView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-pl-GbR">
+                    <rect key="frame" x="411" y="103" width="400" height="400"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Gpe-IQ-pNn"/>
+                </imageView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mni-J5-V7w">
+                    <rect key="frame" x="411" y="507" width="400" height="400"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="9N1-gW-Bzj"/>
+                </imageView>
             </subviews>
-            <point key="canvasLocation" x="769.5" y="201.5"/>
+            <point key="canvasLocation" x="1017" y="251"/>
         </customView>
     </objects>
 </document>

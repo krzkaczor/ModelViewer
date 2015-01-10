@@ -17,6 +17,7 @@
 		C81A50778DE6E1E190D9327F /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5091BF144DAA8155CA55 /* Engine.m */; };
 		C81A5177CDF3B53255ABCCBF /* SampleObject2.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A553051B9CCAA6C8D81C9 /* SampleObject2.json */; };
 		C81A519E5AE1D6AD34F43255 /* LightSource1.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A587279336C0CC14B6B86 /* LightSource1.json */; };
+		C81A51CE4AF88B733CDB87D1 /* BrsSceneModelLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A52026302F8F67F1F956D /* BrsSceneModelLoader.m */; };
 		C81A52B664E2865E23FEFBD7 /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C81A5E02CC6BDF4CB3DFAC62 /* MasterViewController.xib */; };
 		C81A531FB13DF7144897A7D2 /* TriangleRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5F607E4F1E0ACB35D014 /* TriangleRenderer.m */; };
 		C81A5383CC6CE48AF31AC5E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C81A5C33DB28DB56D21DD032 /* MainMenu.xib */; };
@@ -35,7 +36,7 @@
 		C81A5A4C7DDBEAFC334DC27D /* DebugService.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A551BE849A5B711C98275 /* DebugService.m */; };
 		C81A5A62A24A61BCC158A8A1 /* room.brs in Resources */ = {isa = PBXBuildFile; fileRef = C81A5E4A3748FC422C826673 /* room.brs */; };
 		C81A5A97E7A490E7FFADBD03 /* LightSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A54F0F54715763D4497FB /* LightSource.m */; };
-		C81A5C63B9993C122BC1619C /* JsonModelLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5185B309588F0E6A0D2B /* JsonModelLoader.m */; };
+		C81A5C63B9993C122BC1619C /* JsonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5185B309588F0E6A0D2B /* JsonLoader.m */; };
 		C81A5CC232EB06BBEB0C5BC3 /* SampleObject.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A5EF3F604ADED13356383 /* SampleObject.json */; };
 		C81A5DB5BDAAC7D18262205E /* 2DTriangle.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A543B1329C57F577F709E /* 2DTriangle.json */; };
 		C81A5DC00F9A8D2CF3FF5424 /* YCMatrix+Affine3D.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A530DDED24169B36F581A /* YCMatrix+Affine3D.m */; };
@@ -68,7 +69,8 @@
 		6B2F39941A6063550064D0F7 /* ModelViewerGUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModelViewerGUITests.m; sourceTree = "<group>"; };
 		C81A5091BF144DAA8155CA55 /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
 		C81A50BD3C1AE8170853D7F6 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
-		C81A5185B309588F0E6A0D2B /* JsonModelLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonModelLoader.m; sourceTree = "<group>"; };
+		C81A5185B309588F0E6A0D2B /* JsonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonLoader.m; sourceTree = "<group>"; };
+		C81A52026302F8F67F1F956D /* BrsSceneModelLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrsSceneModelLoader.m; sourceTree = "<group>"; };
 		C81A5214AEEC4098479E5011 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		C81A52D1D601D86AD54E826C /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		C81A5300EB1430B1B95BFD9D /* Vertex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vertex.m; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		C81A532EB1E502B7937D5F2A /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		C81A5387114ED71FB0F220FE /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		C81A543B1329C57F577F709E /* 2DTriangle.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = 2DTriangle.json; sourceTree = "<group>"; };
+		C81A54A653A5E250D0C7F444 /* BrsSceneModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrsSceneModelLoader.h; sourceTree = "<group>"; };
 		C81A54F0F54715763D4497FB /* LightSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightSource.m; sourceTree = "<group>"; };
 		C81A54FA1C734C454B6AFAB4 /* SceneRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneRenderer.m; sourceTree = "<group>"; };
 		C81A551BE849A5B711C98275 /* DebugService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugService.m; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		C81A585DFF32648E7678BA0E /* Transformable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transformable.h; sourceTree = "<group>"; };
 		C81A587279336C0CC14B6B86 /* LightSource1.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = LightSource1.json; sourceTree = "<group>"; };
 		C81A590220C5A7EE8670D536 /* YCMatrix+Affine3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YCMatrix+Affine3D.h"; sourceTree = "<group>"; };
+		C81A5942FEC6160AA1DA30E6 /* LightSourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightSourceLoader.h; sourceTree = "<group>"; };
 		C81A597BF2F3EB01BCEEF188 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		C81A59D6026AD9AD97629BA0 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		C81A5A0F4233637798973A57 /* SceneRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneRenderer.h; sourceTree = "<group>"; };
@@ -96,7 +100,7 @@
 		C81A5A52A2F3993866062503 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		C81A5A52FEC373F367AFDA11 /* SceneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneModel.h; sourceTree = "<group>"; };
 		C81A5A74FDE0808C04ABE31F /* Projection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projection.h; sourceTree = "<group>"; };
-		C81A5AB5B04BB7CD85C061AC /* WorldObjectsLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldObjectsLoader.h; sourceTree = "<group>"; };
+		C81A5AB5B04BB7CD85C061AC /* SceneModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneModelLoader.h; sourceTree = "<group>"; };
 		C81A5B02647E6314E6AAD432 /* DebugService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugService.h; sourceTree = "<group>"; };
 		C81A5B9792BCD4BC991F3B58 /* CUBES.BRS */ = {isa = PBXFileReference; lastKnownFileType = file.BRS; path = CUBES.BRS; sourceTree = "<group>"; };
 		C81A5BAEE1DD5201809A1D02 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
@@ -118,7 +122,7 @@
 		C81A5EF3F604ADED13356383 /* SampleObject.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = SampleObject.json; sourceTree = "<group>"; };
 		C81A5EFEB03C0CC2A1DD55A2 /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		C81A5F607E4F1E0ACB35D014 /* TriangleRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriangleRenderer.m; sourceTree = "<group>"; };
-		C81A5F6319989C6C2C481B2E /* JsonModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonModelLoader.h; sourceTree = "<group>"; };
+		C81A5F6319989C6C2C481B2E /* JsonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonLoader.h; sourceTree = "<group>"; };
 		C81A5F6FC645BC666C172934 /* PerspectiveProjection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerspectiveProjection.m; sourceTree = "<group>"; };
 		C81A5FA87100653DF47D1D20 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C81A5FC7231BF6BD23BF291A /* kuchnia.brs */ = {isa = PBXFileReference; lastKnownFileType = file.brs; path = kuchnia.brs; sourceTree = "<group>"; };
@@ -260,14 +264,17 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
-		C81A55C91E3A3311548E01CB /* ModelLoader */ = {
+		C81A55C91E3A3311548E01CB /* WorldLoader */ = {
 			isa = PBXGroup;
 			children = (
-				C81A5F6319989C6C2C481B2E /* JsonModelLoader.h */,
-				C81A5185B309588F0E6A0D2B /* JsonModelLoader.m */,
-				C81A5AB5B04BB7CD85C061AC /* WorldObjectsLoader.h */,
+				C81A5F6319989C6C2C481B2E /* JsonLoader.h */,
+				C81A5185B309588F0E6A0D2B /* JsonLoader.m */,
+				C81A5AB5B04BB7CD85C061AC /* SceneModelLoader.h */,
+				C81A5942FEC6160AA1DA30E6 /* LightSourceLoader.h */,
+				C81A52026302F8F67F1F956D /* BrsSceneModelLoader.m */,
+				C81A54A653A5E250D0C7F444 /* BrsSceneModelLoader.h */,
 			);
-			path = ModelLoader;
+			path = WorldLoader;
 			sourceTree = "<group>";
 		};
 		C81A5618DD704F1C39F0F58A /* WorldObjects */ = {
@@ -334,7 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				C81A5838E24D0DDE9ECF9008 /* Rendering */,
-				C81A55C91E3A3311548E01CB /* ModelLoader */,
+				C81A55C91E3A3311548E01CB /* WorldLoader */,
 				C81A57475844B319657DA6BB /* Geometry */,
 				C81A5618DD704F1C39F0F58A /* WorldObjects */,
 				C81A5B02647E6314E6AAD432 /* DebugService.h */,
@@ -508,11 +515,12 @@
 				C81A59739F744CC5AA3EB6AA /* Vector.m in Sources */,
 				C81A56B9089D176632516AF7 /* DoublePoint.m in Sources */,
 				C81A5DC00F9A8D2CF3FF5424 /* YCMatrix+Affine3D.m in Sources */,
-				C81A5C63B9993C122BC1619C /* JsonModelLoader.m in Sources */,
+				C81A5C63B9993C122BC1619C /* JsonLoader.m in Sources */,
 				C81A50778DE6E1E190D9327F /* Engine.m in Sources */,
 				C81A5A4C7DDBEAFC334DC27D /* DebugService.m in Sources */,
 				C81A531FB13DF7144897A7D2 /* TriangleRenderer.m in Sources */,
 				C81A5E713B8BB38F5CEA2465 /* SceneRenderer.m in Sources */,
+				C81A51CE4AF88B733CDB87D1 /* BrsSceneModelLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

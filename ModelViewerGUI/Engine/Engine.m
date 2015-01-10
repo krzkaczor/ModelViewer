@@ -6,88 +6,86 @@
 
 #import "Engine.h"
 #import "Scene.h"
-#import "WorldObjectsLoader.h"
+#import "SceneModelLoader.h"
 #import "SceneModel.h"
 #import "Camera.h"
 #import "YCMatrix+Affine3D.h"
 #import "PerspectiveProjection.h"
+#import "TriangleRenderer.h"
 #import "LightSource.h"
 #import "Vector.h"
+#import "LightSourceLoader.h"
 #import "Model.h"
 #import "Line.h"
 #import "DoublePoint.h"
+#import "SceneRenderer.h"
 #import "Color.h"
 #import "DebugService.h"
 #import "TriangleRenderer.h"
+#import "SceneRenderer.h"
+#import "OrthographicProjection.h"
 
 @implementation Engine {
 
 }
 
-- (instancetype)initWithRenderer:(id)renderer modelLoader:(id <WorldObjectsLoader>)modelLoader {
+- (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader {
     self = [super init];
     if (self) {
-        _renderer = renderer;
-        _worldLoader = modelLoader;
-
+        _sceneModelLoader = sceneModelLoader;
+        _lightSourceLoader = lightSourceLoader;
         _scene = [Scene emptyScene];
+        _renderer = [[SceneRenderer alloc] init];
 
-        //self.renderer.scene = _scene;
+        [self setupCameras];
     }
 
     return self;
 }
 
++ (instancetype)engineWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader {
+    return [[self alloc] initWithSceneModelLoader:sceneModelLoader lightSourceLoader:lightSourceLoader];
+}
 
-- (NSImage *)generateFrame {
+
+- (void)setupCameras {
+    double size = 100;
+    id<Projection> projection = [OrthographicProjection projectionWithRight:size left:-size top:size bottom:-size far:1 near:10];
+
+    Camera* frontCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+
+    Camera* topCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    topCamera.worldToViewMatrix = [YCMatrix rotateXWithAngle:M_PI / 2];
+
+    Camera* sideCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    sideCamera.worldToViewMatrix = [YCMatrix rotateYWithAngle:M_PI / 2];
+
+    self.helperCameras = [@[frontCamera, topCamera, sideCamera] mutableCopy];
+}
+
+
+- (NSArray*)generateFrames {
     id<Projection> projection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
     Camera *camera = [Camera cameraWithHeight:400 width:400 projection:projection];
-    YCMatrix *trans = [Matrix translationX:0 Y:0 Z:10];
-    camera.worldToViewMatrix = [YCMatrix assembleFromRightToLeft:@[
-            trans
-    ]];
-    __block NSImage* image;
 
-    TriangleRenderer* renderer = [[TriangleRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
-    [renderer startSceneRendering];
+    //setup camera
+    camera.position = [Vector vectorWithX:0 y:0 z:-45];
+    camera.eyePosition = [Vector vectorWithX:0 y:0 z:-50];
+    //camera.up = [Vector vectorWithX:0.9 y:1 z:0];
+    [camera updateMatrix];
 
-    [self.scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
-        [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
-            YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
-                    camera.viewportMatrix,
-                    //camera.projection.projectionMatrix,
-                    camera.worldToViewMatrix,
-                    sceneModel.modelToWorldMatrix,
-            ]];
+    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:camera.position color:[Color colorWithR:0 g:1 b:0]]];
 
-            [renderer renderTriangle:[triangle applyTransformation:modelViewProjectionMatrix]];
-        }];
-    }];
+    NSImage* mainCameraView = [self.renderer renderScene:self.scene usingCamera:camera putAdditionalInfo:NO];
+    NSImage* frontCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[0] putAdditionalInfo:YES] ;
+    NSImage* topCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[1] putAdditionalInfo:YES];
+    NSImage* sideCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[2] putAdditionalInfo:YES];
 
-//    TriangleRenderer* renderer = [[TriangleRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
-//    [renderer startSceneRendering];
-//
-//    Vector *v1 = [Vector vectorWithX:200 y:100 z:0];
-//    Vector *v2 = [Vector vectorWithX:100 y:100 z:0];
-//    Vector *v3 = [Vector vectorWithX:300 y:370 z:0];
-//    Vertex *p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
-//    Vertex *p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:0 g:1 b:0]];
-//    Vertex *p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:0 g:0 b:1]];
-//    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
-//
-//    v1 = [Vector vectorWithX:300 y:100 z:-2];
-//    v2 = [Vector vectorWithX:50 y:100 z:-2];
-//    v3 = [Vector vectorWithX:250 y:370 z:-2];
-//    p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
-//    p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:1 g:0 b:0]];
-//    p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:1 g:0 b:0]];
-//    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
-
-    return [renderer finishRendering];
+    return @[mainCameraView, topCameraView, frontCameraView, sideCameraView];
 }
 
 - (void)loadModel:(NSString *)path {
-    SceneModel *sceneModel = [self.worldLoader loadModelFromFile:path];
+    SceneModel *sceneModel = [self.sceneModelLoader loadModelFromFile:path];
     [sceneModel.model calculateTriangleNormals];
     [sceneModel.model calculateVerticlesNormals];
 
@@ -96,7 +94,11 @@
 }
 
 -(void)loadLightConfig:(NSString*)path {
-    self.scene.lightSource = [self.worldLoader loadLightSourceFromFile:path];
+    self.scene.lightSource = [self.lightSourceLoader loadLightSourceFromFile:path];
+
+    //refactor
+    [self.scene.sceneModels[0] lightUsingLightSource:self.scene.lightSource];
+    [self putConstantDebugData];
 }
 
 - (void)run {
@@ -127,7 +129,7 @@
 //                trans2,
         ]];
 
-        [self putDynamicDebugData];
+//        [self putDynamicDebugData];
         //[self.renderer render];
 
         [DebugService.instance clearDynamicData];
@@ -138,10 +140,10 @@
     getchar();
 }
 
-- (void)putDynamicDebugData {
-//    DoublePoint *cameraPosition = [DoublePoint pointWithPos:[self.scene.origin applyTransformation:[self.renderer.camera.worldToViewMatrix pseudoInverse]] color:[Color colorWithR:0 g:1 b:0]];
+//- (void)putDynamicDebugData {
+//    DoublePoint *cameraPosition = [DoublePoint pointWithPos:self.camera color:[Color colorWithR:0 g:1 b:0]];
 //    [DebugService.instance.dynamicHelperPoints addObject:cameraPosition];
-}
+//}
 
 - (void)putConstantDebugData {
     DoublePoint *origin = [DoublePoint pointWithPos:[Vector vectorWithX:0 y:0 z:0] color:[Color colorWithR:1 g:0 b:0]];

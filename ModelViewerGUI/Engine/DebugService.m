@@ -41,4 +41,8 @@
     [self.dynamicHelperPoints removeAllObjects];
 }
 
+- (NSArray*)getAllPoints {
+    NSArray* ret = [self.constantPoints arrayByAddingObjectsFromArray:[self.constantHelperPoints arrayByAddingObjectsFromArray:self.dynamicHelperPoints]];
+    return ret;
+}
 @end

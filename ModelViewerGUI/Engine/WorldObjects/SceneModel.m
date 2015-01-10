@@ -47,10 +47,7 @@
         vertex.luminescence.g += 1 * fattr * lightSource.color.g * [[vectorToLightSource normalizeVector] dotWith:vertex.normal];
         vertex.luminescence.b += 1 * fattr * lightSource.color.b * [[vectorToLightSource normalizeVector] dotWith:vertex.normal];
 
-        if (idx == 0) {
-            Line* normal = [Line lineWithA:vertex.position b:[Vector vectorFromMatrix:vertex.normal] color:Color.red];
-            [DebugService.instance.constantLines addObject:normal];
-        }
+        vertex.luminescence = [vertex.luminescence normalize];
     }];
 
     [self.model.vertices enumerateObjectsUsingBlock:^(Vertex *vertex, NSUInteger idx, BOOL *stop) {

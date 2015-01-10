@@ -16,4 +16,6 @@
 @property NSMutableArray *dynamicHelperPoints;
 
 - (void)clearDynamicData;
+
+- (NSArray *)getAllPoints;
 @end

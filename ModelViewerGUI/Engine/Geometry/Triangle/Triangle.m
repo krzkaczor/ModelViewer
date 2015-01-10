@@ -2,6 +2,7 @@
 // Created by Krzysztof Kaczor on 12/29/14.
 //
 
+#import <objc/objc-api.h>
 #import "Triangle.h"
 #import "Vector.h"
 #import "YCMatrix.h"
@@ -95,6 +96,10 @@
     double g3 = self.v3.color.g;
     double b3 = self.v3.color.b;
 
+    if (y1 == y2 && y2 == y3) {
+        return @[self];
+    }
+
     double y4 = y2;
     double x4 =((y4 - y1) * ((x1 - x3) / (y1 - y3)) + x1);
     double z4 =((y4 - y1) * ((z1 - z3) / (y1 - y3)) + z1);
@@ -113,4 +118,5 @@
 
     return @[t1, t2];
 }
+
 @end

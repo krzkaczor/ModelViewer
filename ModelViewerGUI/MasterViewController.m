@@ -13,7 +13,8 @@
 #import "Color.h"
 #import "Engine.h"
 #import "Renderer.h"
-#import "JsonModelLoader.h"
+#import "JsonLoader.h"
+#import "BrsSceneModelLoader.h"
 
 @interface MasterViewController ()
 
@@ -28,12 +29,17 @@
     self.topLeftImage.layer.borderWidth = 1.0;
     self.bottomLeftImage.wantsLayer = YES;
     self.bottomLeftImage.layer.borderWidth = 1.0;
+    self.topRightImage.wantsLayer = YES;
+    self.topRightImage.layer.borderWidth = 1.0;
+    self.bottomRightImage.wantsLayer = YES;
+    self.bottomRightImage.layer.borderWidth = 1.0;
 
-    id<Renderer> renderer = [[TriangleRenderer alloc] init];
-    id<WorldObjectsLoader> modelLoader = [[JsonModelLoader alloc] init];
+    id<LightSourceLoader> jsonModelLoader = [[JsonLoader alloc] init];
+    id<SceneModelLoader> brsSceneLoader = [[BrsSceneModelLoader alloc] init];
 
-    self.engine = [[Engine alloc] initWithRenderer:renderer modelLoader:modelLoader];
-    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/2DTriangle.json"];
+    self.engine = [[Engine alloc] initWithSceneModelLoader:brsSceneLoader lightSourceLoader:jsonModelLoader];
+    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/TEA.BRS"];
+    [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
 
     [self requestFrame];
 }
@@ -41,11 +47,12 @@
 - (void)requestFrame {
     CGSize cgSize = CGSizeMake(400, 400);
 
+    NSArray* frames = self.engine.generateFrames;
 
-    NSImage* frame = self.engine.generateFrame;
-
-    self.topLeftImage.image = frame;
-//    self.bottomLeftImage.image = [renderer renderTriangle:triangle onScreen:cgSize];
+    self.topLeftImage.image = frames[0];
+    self.bottomLeftImage.image = frames[1];
+    self.topRightImage.image = frames[2];
+    self.bottomRightImage.image = frames[3];
 }
 
 @end

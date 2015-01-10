@@ -32,6 +32,7 @@
         copy.position = [self.position copy];
         copy.color = [self.color copy];
         copy.normal = [self.normal copy];
+        copy.luminescence = [self.luminescence copy];
     }
 
     return copy;

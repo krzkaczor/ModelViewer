@@ -3,18 +3,24 @@
 //
 
 #import <Foundation/Foundation.h>
-@protocol WorldObjectsLoader;
+@protocol SceneModelLoader;
 @class Scene;
 @class LightSource;
+@protocol LightSourceLoader;
+@class TriangleRenderer;
+@class SceneRenderer;
 
 
 @interface Engine : NSObject
-@property (readonly) id renderer;
-@property (readonly) id<WorldObjectsLoader> worldLoader;
+@property (readonly) id<SceneModelLoader> sceneModelLoader;
+@property (readonly) id<LightSourceLoader> lightSourceLoader;
 @property (readonly) Scene* scene;
+@property (readonly) SceneRenderer* renderer;
+@property(nonatomic, strong) NSMutableArray *helperCameras;
 
+- (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader;
 
-- (instancetype)initWithRenderer:(id)renderer modelLoader:(id <WorldObjectsLoader>)modelLoader;
++ (instancetype)engineWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader;
 
 
 - (void)loadModel:(NSString *)path;
@@ -23,5 +29,5 @@
 
 - (void)run;
 
-- (NSImage *)generateFrame;
+- (NSArray *)generateFrames;
 @end

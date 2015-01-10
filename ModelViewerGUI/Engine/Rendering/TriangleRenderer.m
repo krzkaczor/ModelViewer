@@ -20,6 +20,8 @@ void render_triangle(TPoint A, TPoint B, TPoint C);
 void clear_buffers();
 void free_buffers();
 
+void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) ;
+
 UInt8* buf;
 double* bufZ;
 int width, height;
@@ -54,25 +56,40 @@ int width, height;
 - (void)renderSimpleTriangle:(Triangle*)triangle {
     int x = (int) (triangle.v1.position.x);
     int y = (int) (triangle.v1.position.y);
-    TPoint A = {x, y,1, triangle.v1.color.r * 255, triangle.v1.color.g * 255,triangle.v1.color.b * 255};
+    TPoint A = {x, y,1, (UInt8) (triangle.v1.color.r * 255), (UInt8) (triangle.v1.color.g * 255), (UInt8) (triangle.v1.color.b * 255)};
 
     x = (int) (triangle.v2.position.x);
     y = (int) (triangle.v2.position.y);
-    TPoint B = {x, y,1, triangle.v2.color.r * 255, triangle.v2.color.g * 255,triangle.v2.color.b * 255};
+    TPoint B = {x, y,1, (UInt8) (triangle.v2.color.r * 255), (UInt8) (triangle.v2.color.g * 255), (UInt8) (triangle.v2.color.b  * 255)};
 
     x = (int) (triangle.v3.position.x);
     y = (int) (triangle.v3.position.y);
-    TPoint C = {x, y,1, triangle.v3.color.r * 255, triangle.v3.color.g * 255,triangle.v3.color.b * 255};
+    TPoint C = {x, y,1, (UInt8) (triangle.v3.color.r * 255), (UInt8) (triangle.v3.color.g * 255), (UInt8) (triangle.v3.color.b  * 255)};
 
     render_triangle(A, B, C);
 }
 
 - (void)renderTriangle:(Triangle*)t {
-    NSArray* arr = [t split];
-    Triangle* triangle = arr[0];
-    Triangle* triangle2 = arr[1];
-    [self renderSimpleTriangle:triangle2];
-    [self renderSimpleTriangle:triangle];
+    NSArray* triangles = [t split];
+
+    [self renderSimpleTriangle:triangles[0]];
+    if (triangles.count == 2) {
+        [self renderSimpleTriangle:triangles[1]];
+    }
+}
+
+- (void)renderPoint:(DoublePoint*)p {
+    int x = (int) p.position.x;
+    int y = (int) p.position.y;
+    int r = (int) (p.color.r * 255);
+    int g = (int) (p.color.g * 255);
+    int b = (int) (p.color.b * 255);
+
+    for (int i = x-2; i < x+2;i++) {
+        for (int j = y-2;j < y+2;j++) {
+            put_pixel(i, j, DBL_MAX, r, g, b);
+        }
+    }
 }
 
 - (NSImage*)finishRendering {
@@ -107,20 +124,23 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
-    memset(buf, 0, width*height*3);
-    memset(bufZ, -DBL_MAX, width*height);
+    memset(buf, 50, sizeof (UInt8) * width*height*3);
+    memset(bufZ, -DBL_MAX, sizeof (double) * width*height);
 }
 
-void put_pixel(int x, int y, double z, UInt8 r, UInt8 g,UInt8 b ) {
+void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
     if (x >= width || y >= height || x < 0 || y < 0)
         return;
 
-    int bufZAddr = y * width + x;
+    int xI = (int)round(x);
+    int yI = (int)round(y);
+
+    int bufZAddr = yI * width + xI;
     if (bufZ[bufZAddr] >= z )
         return;
     bufZ[bufZAddr] = z;
 
-    int addr = (y * width + x) * 3;
+    int addr = (yI * width + xI) * 3;
     buf[addr] = r;
     buf[addr + 1] = g;
     buf[addr + 2] = b;
@@ -268,9 +288,7 @@ void horizontal_line(float x, float x2, float y, double zl, double zr, float r1,
     double dr = (r2 - r1)/fabs(x2 - x);
     double dg = (g2 - g1)/fabs(x2 - x);
     double db = (b2 - b1)/fabs(x2 - x);
-    printf("%f\n", dr);
     for (;x < x2;x++) {
-        printf("r1 = %f\n", r1);
         put_pixel(x, y,zl, r1, g1, b1);
         r1 += dr;
         g1 += dg;
