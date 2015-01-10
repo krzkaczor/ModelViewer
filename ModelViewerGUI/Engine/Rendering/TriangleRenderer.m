@@ -105,20 +105,22 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     if (B.y - A.y != 0) {
         deltaAB = (double)(B.x - A.x) / (B.y - A.y);
     }
-    deltaBC = (double)(C.x - B.x) / (C.y - B.y);
-    deltaAC = (double)(C.x - A.x) / (C.y - A.y);
+    if (C.y - B.y != 0) {
+        deltaBC = (double) (C.x - B.x) / (C.y - B.y);
+    }
+    if (C.y - A.y != 0) {
+        deltaAC = (double) (C.x - A.x) / (C.y - A.y);
+    }
 
 
     double deltaBCr = 0;
     if (C.y != B.y && C.r != B.r) {
         deltaBCr = (C.r - B.r) / (C.y - B.y);
     }
-
     double deltaACr = 0;
     if (C.y != A.y && C.r != A.r) {
         deltaACr = (C.r - A.r) / (C.y - A.y);
     }
-
     double deltaABr = 0;
     if (B.y != A.y && B.r != A.r) {
         deltaABr = (B.r - A.r) / (B.y - A.y);
@@ -137,7 +139,7 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         rr = B.r;
     }
 
-    if (B.x < C.x) {
+    if (B.x < C.x && A.y != B.y) {
         double tmp = deltaACr;
         deltaACr = deltaABr;
         deltaABr = tmp;
@@ -170,14 +172,14 @@ void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, f
 //    if (r1 > r2) {
 //        float t = r1;
 //        r1 = r2;
-//        r1 = t;
+//        r2 = t;
 //    }
 
     double dr = (r2 - r1)/fabs(x2 - x);
     printf("%f\n", dr);
     for (;x < x2;x++) {
         printf("r1 = %f\n", r1);
-        put_pixel(x, y, r1, g1, b1);
+        put_pixel(x, y, r1, 0, 0);
         r1 += dr;
     }
 };

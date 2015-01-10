@@ -67,14 +67,14 @@
     [renderer startSceneRenderingOnScreen:CGSizeMake(400, 400)];
 
     Vector *v1 = [Vector vectorWithX:200 y:100 z:0];
-    Vector *v2 = [Vector vectorWithX:100 y:270 z:0];
+    Vector *v2 = [Vector vectorWithX:100 y:370 z:0];
     Vector *v3 = [Vector vectorWithX:300 y:370 z:0];
 
-    Vertex *p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:0.7 g:0 b:0]];
-    Vertex *p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:0.7 g:0 b:0]];
-    Vertex *p3 = [Vertex vertexWithPosition:v3 color:Color.black];
+    Vertex *p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:0 g:1 b:0]];
+    Vertex *p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:0 g:0 b:1]];
+    Vertex *p3 = [Vertex vertexWithPosition:v3 color:Color.red];
 
-    [renderer renderTriangle:[Triangle triangleWithP1:p2 p2:p1 p3:p3]];
+    [renderer renderTriangle:[Triangle triangleWithP1:p3 p2:p2 p3:p1]];
 
     return [renderer finishRendering];
 }
