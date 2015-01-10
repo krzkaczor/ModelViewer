@@ -55,8 +55,8 @@ int width, height;
     NSArray* arr = [t split];
     Triangle* triangle = arr[0];
     Triangle* triangle2 = arr[1];
-    [self renderSimpleTriangle:triangle];
     [self renderSimpleTriangle:triangle2];
+    [self renderSimpleTriangle:triangle];
 }
 
 - (NSImage*)finishRendering {
@@ -105,32 +105,24 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     if (B.y - A.y != 0) {
         deltaAB = (double)(B.x - A.x) / (B.y - A.y);
     }
-
     deltaBC = (double)(C.x - B.x) / (C.y - B.y);
     deltaAC = (double)(C.x - A.x) / (C.y - A.y);
 
 
-    double deltaBCr;
-
-    //color
-    //r
-    double deltaABr = (B.r - A.r) / (B.y - A.y);
-    if (C.y == B.y) {
-        deltaBCr = 0;
-    } else {
+    double deltaBCr = 0;
+    if (C.y != B.y && C.r != B.r) {
         deltaBCr = (C.r - B.r) / (C.y - B.y);
     }
-    double deltaACr = (C.r - A.r) / (C.y - A.y);
-//    //g
-//    double deltaABg = (B.g - A.g) / (B.y - A.y);
-//    double deltaBCg = (C.g - B.g) / (C.y - B.y);
-//    double deltaACg = (C.g - A.g) / (C.y - A.y);
-//    //z
-//    double deltaABb = (B.b - A.b) / (B.y - A.y);
-//    double deltaBCb = (C.b - B.b) / (C.y - B.y);
-//    double deltaACb = (C.b - A.b) / (C.y - A.y);
 
-    //caluclate correct delatas before entering loop (with correct sign)
+    double deltaACr = 0;
+    if (C.y != A.y && C.r != A.r) {
+        deltaACr = (C.r - A.r) / (C.y - A.y);
+    }
+
+    double deltaABr = 0;
+    if (B.y != A.y && B.r != A.r) {
+        deltaABr = (B.r - A.r) / (B.y - A.y);
+    }
 
     double xl, xr;
     double rl, rr;
@@ -139,14 +131,10 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
 
     xl = xr = A.x;
     rl = rr = A.r;
-    gl = gr = A.g;
-    bl = br = A.b;
 
     if (A.y - B.y == 0) {
         xr = B.x;
         rr = B.r;
-        gr = B.g;
-        br = B.b;
     }
 
     if (B.x < C.x) {
@@ -179,10 +167,17 @@ void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, f
         x = x2;
         x2 = tmp;
     }
+//    if (r1 > r2) {
+//        float t = r1;
+//        r1 = r2;
+//        r1 = t;
+//    }
 
-    double dr = (r2 - r1)/(x2 - x);
+    double dr = (r2 - r1)/fabs(x2 - x);
+    printf("%f\n", dr);
     for (;x < x2;x++) {
-        put_pixel(x, y, 255, g1, b1);
+        printf("r1 = %f\n", r1);
+        put_pixel(x, y, r1, g1, b1);
         r1 += dr;
     }
 };
