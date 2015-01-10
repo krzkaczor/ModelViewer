@@ -78,20 +78,24 @@
     double y1 = self.v1.position.y;
     double r1 = self.v1.color.r;
     double g1 = self.v1.color.g;
+    double b1 = self.v1.color.b;
     double x2 = self.v2.position.x;
     double y2 = self.v2.position.y;
     double r2 = self.v2.color.r;
     double g2 = self.v2.color.g;
+    double b2 = self.v2.color.b;
     double x3 = self.v3.position.x;
     double y3 = self.v3.position.y;
     double r3 = self.v3.color.r;
     double g3 = self.v3.color.g;
+    double b3 = self.v3.color.b;
 
     double y4 = y2;
     double x4 =((y4 - y1) * ((x1 - x3) / (y1 - y3)) + x1);
+
     double r4 =((y4 - y1) * ((r1 - r3) / (y1 - y3)) + r1);
-    double g4 =((y4 - y1) * ((g1 - r3) / (y1 - y3)) + r1);
-    double b4 =((y4 - y1) * ((r1 - r3) / (y1 - y3)) + r1);
+    double g4 =((y4 - y1) * ((g1 - g3) / (y1 - y3)) + g1);
+    double b4 =((y4 - y1) * ((b1 - b3) / (y1 - y3)) + b1);
 
     //color interpolation
     Vertex* v1 = self.v1;

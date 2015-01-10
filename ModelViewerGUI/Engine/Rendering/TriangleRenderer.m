@@ -97,7 +97,6 @@ void put_pixel(int x, int y, UInt8 r, UInt8 g,UInt8 b ) {
 }
 
 void render_triangle(TPoint A, TPoint B, TPoint C) {
-    //x
     double deltaAB = 0;
     double deltaBC = 0;
     double deltaAC = 0;
@@ -126,6 +125,32 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         deltaABr = (B.r - A.r) / (B.y - A.y);
     }
 
+    double deltaBCg = 0;
+    if (C.y != B.y && C.g != B.g) {
+        deltaBCg = (C.g - B.g) / (C.y - B.y);
+    }
+    double deltaACg = 0;
+    if (C.y != A.y && C.g != A.g) {
+        deltaACg = (C.g - A.g) / (C.y - A.y);
+    }
+    double deltaABg = 0;
+    if (B.y != A.y && B.g != A.g) {
+        deltaABg = (B.g - A.g) / (B.y - A.y);
+    }
+
+    double deltaBCb = 0;
+    if (C.y != B.y && C.b != B.b) {
+        deltaBCb = (C.b - B.b) / (C.y - B.y);
+    }
+    double deltaACb = 0;
+    if (C.y != A.y && C.b != A.b) {
+        deltaACb = (C.b - A.b) / (C.y - A.y);
+    }
+    double deltaABb = 0;
+    if (B.y != A.y && B.b != A.b) {
+        deltaABb = (B.b - A.b) / (B.y - A.y);
+    }
+
     double xl, xr;
     double rl, rr;
     double gl, gr;
@@ -133,16 +158,29 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
 
     xl = xr = A.x;
     rl = rr = A.r;
+    gl = gr = A.g;
+    bl = br = A.b;
 
     if (A.y - B.y == 0) {
         xr = B.x;
         rr = B.r;
+        gr = B.g;
+        br = B.b;
+
     }
 
     if (B.x < C.x && A.y != B.y) {
         double tmp = deltaACr;
         deltaACr = deltaABr;
         deltaABr = tmp;
+
+        tmp = deltaACg;
+        deltaACg = deltaABg;
+        deltaABg = tmp;
+
+        tmp = deltaACb;
+        deltaACb = deltaABb;
+        deltaABb = tmp;
     }
 
     for(float y = A.y; y <= C.y;y++) {
@@ -153,11 +191,22 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
             xl += deltaAC;
             rr += deltaBCr;
             rl += deltaACr;
+
+            gr += deltaBCg;
+            gl += deltaACg;
+            br += deltaBCb;
+            bl += deltaACb;
+
         } else {
             xr += deltaAB;
             xl += deltaAC;
             rr += deltaABr;
             rl += deltaACr;
+
+            gr += deltaABg;
+            gl += deltaACg;
+            br += deltaABb;
+            bl += deltaACb;
         }
 
     }
@@ -176,10 +225,14 @@ void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, f
 //    }
 
     double dr = (r2 - r1)/fabs(x2 - x);
+    double dg = (g2 - g1)/fabs(x2 - x);
+    double db = (b2 - b1)/fabs(x2 - x);
     printf("%f\n", dr);
     for (;x < x2;x++) {
         printf("r1 = %f\n", r1);
-        put_pixel(x, y, r1, 0, 0);
+        put_pixel(x, y, r1, g1, b1);
         r1 += dr;
+        g1 += dg;
+        b1 += db;
     }
 };
