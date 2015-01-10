@@ -8,9 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class Engine;
+
 @interface MasterViewController : NSViewController
 
 @property (weak) IBOutlet NSImageView *topLeftImage;
 @property (weak) IBOutlet NSImageView *bottomLeftImage;
+
+@property (strong) Engine* engine;
 
 @end
