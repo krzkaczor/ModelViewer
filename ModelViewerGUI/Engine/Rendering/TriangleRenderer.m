@@ -9,30 +9,46 @@
 #import "Vector.h"
 #import "Color.h"
 
-void put_pixel(int x, int y, UInt8 r, UInt8 g, UInt8 b ) ;
-void setup_buffer(UInt8* b, int w, int h) ;
+void setup_buffers(int w, int h) ;
+void horizontal_line(float x, float x2, float y, double zl, double zr, float r1, float r2, float g1, float g2, float b1, float b2);
 struct TPoint {
-    double x, y;
-    double z;
+    double x, y, z;
     UInt8 r,g,b;
 };
 typedef struct TPoint TPoint;
-void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, float g2, float b1, float b2);
 void render_triangle(TPoint A, TPoint B, TPoint C);
+void clear_buffers();
+void free_buffers();
+
 UInt8* buf;
+double* bufZ;
 int width, height;
 
 @implementation TriangleRenderer {
     CGSize size;
 }
 
-- (void)startSceneRenderingOnScreen:(CGSize)aSize {
-    size = aSize;
-    size_t sizeX = (size_t) size.width;
-    size_t sizeY = (size_t) size.height;
+- (instancetype)initWithScreenSize:(CGSize)aSize {
+    self = [super init];
+    if (self) {
+        size = aSize;
+        setup_buffers((int)aSize.width, (int)aSize.height);
+    }
 
-    UInt8 pixelData[sizeX * sizeY * 3];
-    setup_buffer(pixelData, (int)sizeX, (int)sizeY);
+    return self;
+}
+
+- (void)dealloc {
+    free_buffers();
+}
+
++ (instancetype)rendererWithScreenSize:(CGSize)aSize {
+    return [[self alloc] initWithScreenSize:aSize];
+}
+
+
+- (void)startSceneRendering {
+    clear_buffers();
 }
 
 - (void)renderSimpleTriangle:(Triangle*)triangle {
@@ -76,21 +92,35 @@ int width, height;
 }
 @end
 
+void free_buffers() {
+    free (buf);
+    free (bufZ);
+}
 
-void setup_buffer(UInt8* b, int w, int h) {
-    buf = b;
+
+void setup_buffers(int w, int h) {
     width = w;
     height = h;
 
-    memset(buf, 0, w*h*3);
+    buf = malloc(sizeof (UInt8) * w*h*3);
+    bufZ = malloc(sizeof (double) * w*h);
 }
 
-void put_pixel(int x, int y, UInt8 r, UInt8 g,UInt8 b ) {
+void clear_buffers() {
+    memset(buf, 0, width*height*3);
+    memset(bufZ, -DBL_MAX, width*height);
+}
+
+void put_pixel(int x, int y, double z, UInt8 r, UInt8 g,UInt8 b ) {
     if (x >= width || y >= height || x < 0 || y < 0)
         return;
 
-    int addr = (y * width + x) * 3;
+    int bufZAddr = y * width + x;
+    if (bufZ[bufZAddr] >= z )
+        return;
+    bufZ[bufZAddr] = z;
 
+    int addr = (y * width + x) * 3;
     buf[addr] = r;
     buf[addr + 1] = g;
     buf[addr + 2] = b;
@@ -152,6 +182,7 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     }
 
     double xl, xr;
+    double zl, zr;
     double rl, rr;
     double gl, gr;
     double bl, br;
@@ -182,9 +213,10 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         deltaACb = deltaABb;
         deltaABb = tmp;
     }
+    zl = zr = A.z;
 
     for(float y = A.y; y <= C.y;y++) {
-        horizontal_line(xl, xr, y, rl, rr, gl, gr, bl, br);
+        horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
 
         if (y >= B.y){
             xr += deltaBC;
@@ -212,17 +244,13 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     }
 }
 
-void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, float g2, float b1, float b2) {
+
+void horizontal_line(float x, float x2, float y, double zl, double zr, float r1, float r2, float g1, float g2, float b1, float b2) {
     if (x > x2){
         float tmp = x;
         x = x2;
         x2 = tmp;
     }
-//    if (r1 > r2) {
-//        float t = r1;
-//        r1 = r2;
-//        r2 = t;
-//    }
 
     double dr = (r2 - r1)/fabs(x2 - x);
     double dg = (g2 - g1)/fabs(x2 - x);
@@ -230,7 +258,7 @@ void horizontal_line(float x, float x2, float y, float r1, float r2, float g1, f
     printf("%f\n", dr);
     for (;x < x2;x++) {
         printf("r1 = %f\n", r1);
-        put_pixel(x, y, r1, g1, b1);
+        put_pixel(x, y,zl, r1, g1, b1);
         r1 += dr;
         g1 += dg;
         b1 += db;

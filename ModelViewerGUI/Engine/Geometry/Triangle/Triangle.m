@@ -76,22 +76,28 @@
 - (NSArray*)split {
     double x1 = self.v1.position.x;
     double y1 = self.v1.position.y;
+    double z1 = self.v1.position.z;
     double r1 = self.v1.color.r;
     double g1 = self.v1.color.g;
     double b1 = self.v1.color.b;
+
     double x2 = self.v2.position.x;
     double y2 = self.v2.position.y;
+    double z2 = self.v2.position.z;
     double r2 = self.v2.color.r;
     double g2 = self.v2.color.g;
     double b2 = self.v2.color.b;
+
     double x3 = self.v3.position.x;
     double y3 = self.v3.position.y;
+    double z3 = self.v3.position.z;
     double r3 = self.v3.color.r;
     double g3 = self.v3.color.g;
     double b3 = self.v3.color.b;
 
     double y4 = y2;
     double x4 =((y4 - y1) * ((x1 - x3) / (y1 - y3)) + x1);
+    double z4 =((y4 - y1) * ((z1 - z3) / (y1 - y3)) + z1);
 
     double r4 =((y4 - y1) * ((r1 - r3) / (y1 - y3)) + r1);
     double g4 =((y4 - y1) * ((g1 - g3) / (y1 - y3)) + g1);
@@ -101,7 +107,7 @@
     Vertex* v1 = self.v1;
     Vertex* v2 = self.v2;
     Vertex* v3 = self.v3;
-    Vertex* v4 = [Vertex vertexWithPosition:[Vector vectorWithX:x4 y:y4 z:1]color:[Color colorWithR:r4 g:g4 b:b4]];
+    Vertex* v4 = [Vertex vertexWithPosition:[Vector vectorWithX:x4 y:y4 z:z4]color:[Color colorWithR:r4 g:g4 b:b4]];
     Triangle* t1 = [Triangle triangleWithP1:v1 p2:v2 p3:v4];
     Triangle* t2 = [Triangle triangleWithP1:v2 p2:v3 p3:v4];
 

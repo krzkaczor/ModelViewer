@@ -9,7 +9,11 @@
 
 
 @interface TriangleRenderer : NSObject <Renderer>
-- (void)startSceneRenderingOnScreen:(CGSize)aSize;
+- (instancetype)initWithScreenSize:(CGSize)aSize;
+
++ (instancetype)rendererWithScreenSize:(CGSize)aSize;
+
+- (void)startSceneRendering;
 
 - (void)renderTriangle:(Triangle *)triangle;
 
