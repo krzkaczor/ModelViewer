@@ -40,47 +40,48 @@
 
 
 - (NSImage *)generateFrame {
-//    id<Projection> projection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
-//    Camera *camera = [Camera cameraWithHeight:640 width:480 projection:projection];
-//    YCMatrix *trans = [Matrix translationX:0 Y:0 Z:10];
-//    camera.worldToViewMatrix = [YCMatrix assembleFromRightToLeft:@[
-//            trans
-//    ]];
-//    __block NSImage* image;
-//
-//    TriangleRenderer* renderer = [[TriangleRenderer alloc]init];
-//    [renderer startSceneRenderingOnScreen:CGSizeMake(400, 400)];
-//    [self.scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
-//        [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
-//            YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
-//                    camera.viewportMatrix,
-//                    camera.projection.projectionMatrix,
-//                    camera.worldToViewMatrix,
-//                    sceneModel.modelToWorldMatrix,
-//            ]];
-//
-//            [renderer renderTriangle:[triangle applyTransformation:modelViewProjectionMatrix]];
-//        }];
-//    }];
+    id<Projection> projection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
+    Camera *camera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    YCMatrix *trans = [Matrix translationX:0 Y:0 Z:10];
+    camera.worldToViewMatrix = [YCMatrix assembleFromRightToLeft:@[
+            trans
+    ]];
+    __block NSImage* image;
 
     TriangleRenderer* renderer = [[TriangleRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
     [renderer startSceneRendering];
 
-    Vector *v1 = [Vector vectorWithX:200 y:100 z:0];
-    Vector *v2 = [Vector vectorWithX:100 y:100 z:0];
-    Vector *v3 = [Vector vectorWithX:300 y:370 z:0];
-    Vertex *p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
-    Vertex *p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:0 g:1 b:0]];
-    Vertex *p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:0 g:0 b:1]];
-    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
+    [self.scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
+        [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
+            YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
+                    camera.viewportMatrix,
+                    //camera.projection.projectionMatrix,
+                    camera.worldToViewMatrix,
+                    sceneModel.modelToWorldMatrix,
+            ]];
 
-    v1 = [Vector vectorWithX:300 y:100 z:-2];
-    v2 = [Vector vectorWithX:50 y:100 z:-2];
-    v3 = [Vector vectorWithX:250 y:370 z:-2];
-    p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
-    p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:1 g:0 b:0]];
-    p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:1 g:0 b:0]];
-    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
+            [renderer renderTriangle:[triangle applyTransformation:modelViewProjectionMatrix]];
+        }];
+    }];
+
+//    TriangleRenderer* renderer = [[TriangleRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
+//    [renderer startSceneRendering];
+//
+//    Vector *v1 = [Vector vectorWithX:200 y:100 z:0];
+//    Vector *v2 = [Vector vectorWithX:100 y:100 z:0];
+//    Vector *v3 = [Vector vectorWithX:300 y:370 z:0];
+//    Vertex *p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
+//    Vertex *p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:0 g:1 b:0]];
+//    Vertex *p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:0 g:0 b:1]];
+//    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
+//
+//    v1 = [Vector vectorWithX:300 y:100 z:-2];
+//    v2 = [Vector vectorWithX:50 y:100 z:-2];
+//    v3 = [Vector vectorWithX:250 y:370 z:-2];
+//    p1 = [Vertex vertexWithPosition:v1 color:[Color colorWithR:1 g:0 b:0]];
+//    p2 = [Vertex vertexWithPosition:v2 color:[Color colorWithR:1 g:0 b:0]];
+//    p3 = [Vertex vertexWithPosition:v3 color:[Color colorWithR:1 g:0 b:0]];
+//    [renderer renderTriangle:[Triangle triangleWithP1:p1 p2:p3 p3:p2]];
 
     return [renderer finishRendering];
 }

@@ -128,19 +128,30 @@ void put_pixel(int x, int y, double z, UInt8 r, UInt8 g,UInt8 b ) {
 
 void render_triangle(TPoint A, TPoint B, TPoint C) {
     double deltaAB = 0;
-    double deltaBC = 0;
-    double deltaAC = 0;
-
     if (B.y - A.y != 0) {
         deltaAB = (double)(B.x - A.x) / (B.y - A.y);
     }
+    double deltaBC = 0;
     if (C.y - B.y != 0) {
         deltaBC = (double) (C.x - B.x) / (C.y - B.y);
     }
+    double deltaAC = 0;
     if (C.y - A.y != 0) {
         deltaAC = (double) (C.x - A.x) / (C.y - A.y);
     }
 
+    double deltaABz = 0;
+    if (B.y - A.y != 0 && B.z != A.z) {
+        deltaABz = (B.z - A.z) / (B.y - A.y);
+    }
+    double deltaBCz = 0;
+    if (C.y - B.y != 0 && C.z != B.z) {
+        deltaBC = (C.z - B.z) / (C.y - B.y);
+    }
+    double deltaACz = 0;
+    if (C.y - A.y != 0 && C.z != A.z) {
+        deltaACz = (C.z - A.z) / (C.y - A.y);
+    }
 
     double deltaBCr = 0;
     if (C.y != B.y && C.r != B.r) {
@@ -188,16 +199,17 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     double bl, br;
 
     xl = xr = A.x;
+    zl = zr = A.z;
     rl = rr = A.r;
     gl = gr = A.g;
     bl = br = A.b;
 
     if (A.y - B.y == 0) {
         xr = B.x;
+        zr = B.z;
         rr = B.r;
         gr = B.g;
         br = B.b;
-
     }
 
     if (B.x < C.x && A.y != B.y) {
@@ -213,7 +225,6 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         deltaACb = deltaABb;
         deltaABb = tmp;
     }
-    zl = zr = A.z;
 
     for(float y = A.y; y <= C.y;y++) {
         horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
@@ -221,9 +232,10 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         if (y >= B.y){
             xr += deltaBC;
             xl += deltaAC;
+            zr += deltaBCz;
+            zl += deltaACz;
             rr += deltaBCr;
             rl += deltaACr;
-
             gr += deltaBCg;
             gl += deltaACg;
             br += deltaBCb;
@@ -232,9 +244,10 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         } else {
             xr += deltaAB;
             xl += deltaAC;
+            zr += deltaABz;
+            zl += deltaACz;
             rr += deltaABr;
             rl += deltaACr;
-
             gr += deltaABg;
             gl += deltaACg;
             br += deltaABb;
