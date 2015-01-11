@@ -70,5 +70,14 @@
     self.normal = [sumOfVectors normalizeVector];
 }
 
+- (Vertex*) luminate {
+    Vertex* v = [self copy];
+    v.color.r *= v.luminescence.r;
+    v.color.g *= v.luminescence.g;
+    v.color.b *= v.luminescence.b;
+
+    return v;
+}
+
 
 @end

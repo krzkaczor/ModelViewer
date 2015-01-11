@@ -54,22 +54,6 @@
 
         vertex.luminescence = [vertex.luminescence normalize];
     }];
-
-    [sceneModel.model.vertices enumerateObjectsUsingBlock:^(Vertex* vertex, NSUInteger idx, BOOL *stop) {
-
-    }];
-
-
-
-    [sceneModel.model.vertices enumerateObjectsUsingBlock:^(Vertex *vertex, NSUInteger idx, BOOL *stop) {
-        vertex.luminescence = [vertex.luminescence normalize];
-
-        vertex.color.r *= vertex.luminescence.r;
-        vertex.color.g *= vertex.luminescence.g;
-        vertex.color.b *= vertex.luminescence.b;
-
-        vertex.color = [vertex.color normalize];
-    }];
 }
 
 

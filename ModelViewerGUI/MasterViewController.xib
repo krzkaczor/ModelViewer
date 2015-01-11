@@ -25,15 +25,15 @@
                     <rect key="frame" x="3" y="507" width="400" height="400"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Zxw-ad-xaX"/>
                 </imageView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1VB-OZ-hwH">
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1VB-OZ-hwH" customClass="InteractionImage">
                     <rect key="frame" x="3" y="103" width="400" height="400"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="zXM-0M-yrV"/>
                 </imageView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-pl-GbR">
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-pl-GbR" customClass="InteractionImage">
                     <rect key="frame" x="407" y="103" width="400" height="400"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Gpe-IQ-pNn"/>
                 </imageView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mni-J5-V7w">
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mni-J5-V7w" customClass="InteractionImage">
                     <rect key="frame" x="407" y="507" width="400" height="400"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="9N1-gW-Bzj"/>
                 </imageView>

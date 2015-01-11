@@ -4,15 +4,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Renderer.h"
+#import "ScreenRenderer.h"
 
 @class Scene;
 @class Camera;
-@class TriangleRenderer;
+@class BitmapRenderer;
 
 
 @interface SceneRenderer : NSObject
-@property(nonatomic, strong) TriangleRenderer* triangleRenderer;
+@property(nonatomic, strong) <ScreenRenderer> renderer;
 
 - (NSImage *)renderScene:(Scene *)scene usingCamera:(Camera *)camera putAdditionalInfo:(BOOL)additionalInfo;
 @end

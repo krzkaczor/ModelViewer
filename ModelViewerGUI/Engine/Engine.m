@@ -11,7 +11,7 @@
 #import "Camera.h"
 #import "YCMatrix+Affine3D.h"
 #import "PerspectiveProjection.h"
-#import "TriangleRenderer.h"
+#import "BitmapRenderer.h"
 #import "LightSource.h"
 #import "Vector.h"
 #import "LightSourceLoader.h"
@@ -21,12 +21,32 @@
 #import "SceneRenderer.h"
 #import "Color.h"
 #import "DebugService.h"
-#import "TriangleRenderer.h"
+#import "BitmapRenderer.h"
 #import "SceneRenderer.h"
 #import "OrthographicProjection.h"
+#import "YCMatrix+Advanced.h"
+#import "InteractionImage.h"
 
 @implementation Engine {
 
+}
+
+- (void)setTopImage:(InteractionImage *)topImage {
+    _topImage = topImage;
+    topImage.engine = self;
+    topImage.assignedCamera = self.topCamera;
+}
+
+- (void)setSideImage:(InteractionImage *)sideImage {
+    _sideImage = sideImage;
+    sideImage.engine = self;
+    sideImage.assignedCamera = self.sideCamera;
+}
+
+- (void)setFrontImage:(InteractionImage *)frontImage {
+    _frontImage = frontImage;
+    frontImage.engine = self;
+    frontImage.assignedCamera = self.sideCamera;
 }
 
 - (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader {
@@ -38,6 +58,7 @@
         _renderer = [[SceneRenderer alloc] init];
 
         [self setupCameras];
+        _scene.mainCamera = self.mainCamera;
     }
 
     return self;
@@ -83,65 +104,23 @@
 
 - (void)loadModel:(NSString *)path {
     SceneModel *sceneModel = [self.sceneModelLoader loadModelFromFile:path];
+    NSLog(@"Succesfully loaded model");
     [sceneModel.model calculateTriangleNormals];
     [sceneModel.model calculateVerticlesNormals];
-
+    NSLog(@"Succesfully calculated normals");
 
     [self.scene addSceneModel:sceneModel];
+    [self.scene putLight];
+    [self updateScreen];
 }
 
 -(void)loadLightConfig:(NSString*)path {
     self.scene.lightSource = [self.lightSourceLoader loadLightSourceFromFile:path];
 
-    [self updateLight];
+    [self.scene putLight];
+    [self updateScreen];
 }
 
-- (void)updateLight {
-    [self.scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
-        [self.scene.lightSource lightModel:sceneModel forCamera:self.mainCamera];
-        [self putConstantDebugData];
-    }];
-
-}
-
-- (void)run {
-    id<Projection> projection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
-    Camera *camera = [Camera cameraWithHeight:640 width:480 projection:projection];
-    //self.renderer.camera = camera;
-
-//    [self.scene.sceneModels[0] lightUsingLightSource:self.scene.lightSource]; //refactor!
-
-    [self putConstantDebugData];
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-    int i = 0;
-    while (true) {
-        YCMatrix *trans = [Matrix translationX:0 Y:0 Z:6];
-        YCMatrix *trans2 = [Matrix translationX:-1 Y:0 Z:0];
-        YCMatrix *rot = [Matrix rotateXWithAngle:M_PI / 16];
-        YCMatrix *rot2 = [Matrix rotateYWithAngle:M_PI / 360 * i++];
-        YCMatrix *rot3 = [Matrix rotateYWithAngle:M_PI / 2 ];
-        //YCMatrix *scal = [Matrix scaleX:1 y:-1 z:-1];
-        camera.worldToViewMatrix = [YCMatrix assembleFromRightToLeft:@[
-                trans,
-                //rot,
-//                rot2,
-                //scal
-                //rot3,
-//                trans2,
-        ]];
-
-//        [self putDynamicDebugData];
-        //[self.renderer render];
-
-        [DebugService.instance clearDynamicData];
-
-        usleep(10000);
-    }
-#pragma clang diagnostic pop
-    getchar();
-}
 
 //- (void)putDynamicDebugData {
 //    DoublePoint *cameraPosition = [DoublePoint pointWithPos:self.camera color:[Color colorWithR:0 g:1 b:0]];
@@ -159,5 +138,30 @@
     [DebugService.instance.constantPoints addObjectsFromArray: [@[origin] mutableCopy]];
     [DebugService.instance.constantHelperPoints addObjectsFromArray:[@[lightSourcePosition] mutableCopy]];
     [DebugService.instance.constantLines addObjectsFromArray: [@[versorX, versorY, versorZ] mutableCopy]];
+}
+
+- (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(Camera*)camera {
+    YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
+            camera.viewportMatrix,
+            camera.projection.projectionMatrix,
+            camera.worldToViewMatrix
+    ]];
+
+    YCMatrix* invertedMatrix = [modelViewProjectionMatrix pseudoInverse];
+
+    Vector* transformedVector = [clickedPoint applyTransformation:invertedMatrix];
+    self.scene.lightSource.position = [Vector vectorWithX:self.scene.lightSource.position.x y:transformedVector.y z:transformedVector.z];
+    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:self.scene.lightSource.position color:[Color colorWithR:1 g:1 b:1]]];
+
+    [self.scene putLight];
+    [self updateScreen];
+}
+
+- (void)updateScreen {
+    NSArray* frames = self.generateFrames;
+    self.mainImage.image = frames[0];
+    self.topImage.image = frames[1];
+    self.frontImage.image = frames[2];
+    self.sideImage.image = frames[3];
 }
 @end

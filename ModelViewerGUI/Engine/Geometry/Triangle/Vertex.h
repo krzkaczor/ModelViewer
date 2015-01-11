@@ -27,6 +27,8 @@
 
 - (void)calculateNormal;
 
+- (Vertex *)luminate;
+
 - (NSString *)description;
 
 @end

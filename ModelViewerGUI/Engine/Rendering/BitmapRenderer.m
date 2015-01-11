@@ -3,30 +3,31 @@
 // Copyright (c) 2015 kaczor. All rights reserved.
 //
 
-#import "TriangleRenderer.h"
+#import "BitmapRenderer.h"
 #import "Triangle.h"
 #import "Vertex.h"
 #import "Vector.h"
 #import "Color.h"
+#define POINT_SIZE 5
 
-void setup_buffers(int w, int h) ;
-void horizontal_line(double x, double x2, double y, double zl, double zr, double r1, double r2, double g1, double g2, double b1, double b2);
 struct TPoint {
     double x, y, z;
     UInt8 r,g,b;
 };
 typedef struct TPoint TPoint;
+
+void setup_buffers(int w, int h) ;
+void horizontal_line(double x, double x2, double y, double zl, double zr, double r1, double r2, double g1, double g2, double b1, double b2);
 void render_triangle(TPoint A, TPoint B, TPoint C);
 void clear_buffers();
 void free_buffers();
-
 void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) ;
 
 UInt8* buf;
 double* bufZ;
 int width, height;
 
-@implementation TriangleRenderer {
+@implementation BitmapRenderer {
     CGSize size;
 }
 
@@ -91,8 +92,8 @@ int width, height;
     int g = (int) (p.color.g * 255);
     int b = (int) (p.color.b * 255);
 
-    for (int i = x-2; i < x+2;i++) {
-        for (int j = y-2;j < y+2;j++) {
+    for (int i = x-POINT_SIZE; i < x+POINT_SIZE;i++) {
+        for (int j = y-POINT_SIZE;j < y+POINT_SIZE;j++) {
             put_pixel(i, j, DBL_MAX, r, g, b);
         }
     }

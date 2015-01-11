@@ -81,8 +81,32 @@
 //        self.normal = negatedNormal;
 }
 
+
+- (id)copyWithZone:(NSZone *)zone {
+    Triangle *copy = [[[self class] allocWithZone:zone] init];
+
+    if (copy != nil) {
+        copy.v1 = self.v1;
+        copy.v2 = self.v2;
+        copy.v3 = self.v3;
+        copy.normal = self.normal;
+    }
+
+    return copy;
+}
+
+
+- (Triangle*) luminate {
+    Triangle * t = [self copy];
+    t.v1 = [t.v1 luminate];
+    t.v2 = [t.v2 luminate];
+    t.v3 = [t.v3 luminate];
+    return t;
+}
+
 - (NSArray*)split {
     [self sortVertices];
+
     double x1 = self.v1.position.x;
     double y1 = self.v1.position.y;
     double z1 = self.v1.position.z;

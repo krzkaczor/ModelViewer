@@ -7,10 +7,17 @@
 
 @class Scene;
 @class Camera;
+@class Triangle;
+@class DoublePoint;
 
-@protocol Renderer <NSObject>
+@protocol ScreenRenderer <NSObject>
 @property (strong) Scene* scene;
 @property (strong) Camera* camera;
 
-- (NSImage*) renderScene:(Scene*) scene;
+- (void)startSceneRendering;
+
+- (void)renderTriangle:(Triangle *)triangle;
+- (void)renderPoint:(DoublePoint *)v;
+
+- (id) finishRendering;
 @end

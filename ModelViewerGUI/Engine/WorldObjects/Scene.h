@@ -17,6 +17,8 @@
 
 @property(nonatomic, strong) Vector* origin;
 
+@property(nonatomic, strong) Camera *mainCamera;
+
 - (instancetype)initWithSceneModels:(NSMutableArray *)sceneModels;
 
 + (instancetype)sceneWithSceneModels:(NSMutableArray *)sceneModels;
@@ -25,4 +27,8 @@
 
 
 - (void)addSceneModel:(SceneModel *)model;
+
+- (void)clearLight;
+
+- (void)putLight;
 @end

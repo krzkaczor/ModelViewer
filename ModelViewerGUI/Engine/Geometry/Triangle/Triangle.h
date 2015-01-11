@@ -13,7 +13,7 @@
 
 
 
-@interface Triangle : NSObject <Transformable>
+@interface Triangle : NSObject <Transformable, NSCopying>
 @property Vertex *v1;
 @property Vertex *v2;
 @property Vertex *v3;
@@ -27,5 +27,9 @@
 
 - (void)calculateNormalKnowingPointInside:(Vector *)pointInside;
 
+- (Triangle *)luminate;
+
 - (NSArray*)split;
+
+- (id)copyWithZone:(NSZone *)zone;
 @end

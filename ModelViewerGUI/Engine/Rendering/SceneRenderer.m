@@ -6,7 +6,7 @@
 #import "SceneRenderer.h"
 #import "Scene.h"
 #import "Camera.h"
-#import "TriangleRenderer.h"
+#import "BitmapRenderer.h"
 #import "SceneModel.h"
 #import "Model.h"
 #import "Projection.h"
@@ -21,7 +21,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _triangleRenderer = [[TriangleRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
+        _renderer = [[BitmapRenderer alloc] initWithScreenSize:CGSizeMake(400, 400)];
     }
 
     return self;
@@ -29,9 +29,7 @@
 
 
 - (NSImage *)renderScene:(Scene *)scene usingCamera:(Camera*)camera putAdditionalInfo:(BOOL)additionalInfo {
-    NSImage* image;
-
-    [self.triangleRenderer startSceneRendering];
+    [self.renderer startSceneRendering];
     [scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
         [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
             YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
@@ -41,7 +39,7 @@
                     sceneModel.modelToWorldMatrix,
             ]];
 
-            [self.triangleRenderer renderTriangle:[triangle applyTransformation:modelViewProjectionMatrix]];
+            [self.renderer renderTriangle:[[triangle luminate] applyTransformation:modelViewProjectionMatrix]];
         }];
     }];
 
@@ -52,13 +50,14 @@
                 camera.worldToViewMatrix
         ]];
 
-        [[[DebugService instance] getAllPoints] enumerateObjectsUsingBlock:^(DoublePoint *point, NSUInteger idx, BOOL *stop) {
-            [self.triangleRenderer renderPoint:[point applyTransformation:modelViewProjectionMatrix]];
-        }];
+
+        Vector* lightSourcePosition = [scene.lightSource.position applyTransformation:modelViewProjectionMatrix];
+        DoublePoint* lightSourcePoint = [DoublePoint pointWithPos:lightSourcePosition color:scene.lightSource.color];
+        [self.renderer renderPoint: lightSourcePoint];
     }
 
 
-    return [self.triangleRenderer finishRendering];
+    return [self.renderer finishRendering];
 }
 
 @end

@@ -7,13 +7,14 @@
 //
 
 #import "MasterViewController.h"
-#import "TriangleRenderer.h"
+#import "BitmapRenderer.h"
 #import "Triangle.h"
 #import "Vertex.h"
 #import "Color.h"
 #import "Engine.h"
-#import "Renderer.h"
+#import "ScreenRenderer.h"
 #import "JsonLoader.h"
+#import "InteractionImage.h"
 #import "BrsSceneModelLoader.h"
 
 @interface MasterViewController ()
@@ -36,20 +37,14 @@
 
     id<LightSourceLoader> jsonModelLoader = [[JsonLoader alloc] init];
     id<SceneModelLoader> brsSceneLoader = [[BrsSceneModelLoader alloc] init];
-
     self.engine = [[Engine alloc] initWithSceneModelLoader:brsSceneLoader lightSourceLoader:jsonModelLoader];
+    self.engine.mainImage = self.topLeftImage;
+    self.engine.topImage = self.bottomLeftImage;
+    self.engine.frontImage = self.topRightImage;
+    self.engine.sideImage = self.bottomRightImage;
+
     [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/TEA.BRS"];
     [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
-    [self requestFrame];
-}
-
-- (void)requestFrame {
-    NSArray* frames = self.engine.generateFrames;
-
-    self.topLeftImage.image = frames[0];
-    self.bottomLeftImage.image = frames[1];
-    self.topRightImage.image = frames[2];
-    self.bottomRightImage.image = frames[3];
 }
 
 - (IBAction)loadNewModelClicked:(NSButton *)sender {
@@ -62,8 +57,6 @@
     if (clicked == NSFileHandlingPanelOKButton) {
         for (NSURL *url in [panel URLs]) {
             [self.engine loadModel:url.path];
-            [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
-            [self requestFrame];
         }
     }
     

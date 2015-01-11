@@ -5,10 +5,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Triangle.h"
-#import "Renderer.h"
+#import "ScreenRenderer.h"
 
 
-@interface TriangleRenderer : NSObject <Renderer>
+@interface BitmapRenderer : NSObject <ScreenRenderer>
 - (instancetype)initWithScreenSize:(CGSize)aSize;
 
 + (instancetype)rendererWithScreenSize:(CGSize)aSize;

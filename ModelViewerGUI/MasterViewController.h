@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 @class Engine;
+@class InteractionImage;
 
 @interface MasterViewController : NSViewController
 
 @property (weak) IBOutlet NSImageView *topLeftImage;
-@property (weak) IBOutlet NSImageView *bottomLeftImage;
-@property (weak) IBOutlet NSImageView *topRightImage;
-@property (weak) IBOutlet NSImageView *bottomRightImage;
+@property (weak) IBOutlet InteractionImage *bottomLeftImage;
+@property (weak) IBOutlet InteractionImage *topRightImage;
+@property (weak) IBOutlet InteractionImage *bottomRightImage;
 - (IBAction)loadNewModelClicked:(NSButton *)sender;
 
 
