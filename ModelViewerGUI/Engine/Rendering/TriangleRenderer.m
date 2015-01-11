@@ -10,7 +10,7 @@
 #import "Color.h"
 
 void setup_buffers(int w, int h) ;
-void horizontal_line(float x, float x2, float y, double zl, double zr, float r1, float r2, float g1, float g2, float b1, float b2);
+void horizontal_line(double x, double x2, double y, double zl, double zr, double r1, double r2, double g1, double g2, double b1, double b2);
 struct TPoint {
     double x, y, z;
     UInt8 r,g,b;
@@ -54,17 +54,23 @@ int width, height;
 }
 
 - (void)renderSimpleTriangle:(Triangle*)triangle {
-    int x = (int) (triangle.v1.position.x);
-    int y = (int) (triangle.v1.position.y);
-    TPoint A = {x, y,1, (UInt8) (triangle.v1.color.r * 255), (UInt8) (triangle.v1.color.g * 255), (UInt8) (triangle.v1.color.b * 255)};
+    double x = triangle.v1.position.x;
+    double y = (triangle.v1.position.y);
+    double z = (triangle.v1.position.z);
+    TPoint A = {x, y,z, (UInt8) (triangle.v1.color.r * 255), (UInt8) (triangle.v1.color.g * 255), (UInt8) (triangle.v1.color.b * 255)};
 
-    x = (int) (triangle.v2.position.x);
-    y = (int) (triangle.v2.position.y);
-    TPoint B = {x, y,1, (UInt8) (triangle.v2.color.r * 255), (UInt8) (triangle.v2.color.g * 255), (UInt8) (triangle.v2.color.b  * 255)};
+    x =  (triangle.v2.position.x);
+    y = (triangle.v2.position.y);
+    z = (triangle.v2.position.z);
+    TPoint B = {x, y,z, (UInt8) (triangle.v2.color.r * 255), (UInt8) (triangle.v2.color.g * 255), (UInt8) (triangle.v2.color.b  * 255)};
 
-    x = (int) (triangle.v3.position.x);
-    y = (int) (triangle.v3.position.y);
-    TPoint C = {x, y,1, (UInt8) (triangle.v3.color.r * 255), (UInt8) (triangle.v3.color.g * 255), (UInt8) (triangle.v3.color.b  * 255)};
+    x = triangle.v3.position.x;
+    y = triangle.v3.position.y;
+    z = triangle.v3.position.z;
+    TPoint C = {x, y,z, (UInt8) (triangle.v3.color.r * 255), (UInt8) (triangle.v3.color.g * 255), (UInt8) (triangle.v3.color.b  * 255)};
+
+    if (A.y == B.y && A.y == C.y)
+        return;
 
     render_triangle(A, B, C);
 }
@@ -124,8 +130,11 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
-    memset(buf, 50, sizeof (UInt8) * width*height*3);
-    memset(bufZ, -DBL_MAX, sizeof (double) * width*height);
+    memset(buf, 75, sizeof (UInt8) * width*height*3);
+
+    for (int i = 0;i < width*height;i++) {
+        bufZ[i] = -DBL_MAX;
+    }
 }
 
 void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
@@ -149,15 +158,15 @@ void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
 void render_triangle(TPoint A, TPoint B, TPoint C) {
     double deltaAB = 0;
     if (B.y - A.y != 0) {
-        deltaAB = (double)(B.x - A.x) / (B.y - A.y);
+        deltaAB = (B.x - A.x) / (B.y - A.y);
     }
     double deltaBC = 0;
     if (C.y - B.y != 0) {
-        deltaBC = (double) (C.x - B.x) / (C.y - B.y);
+        deltaBC = (C.x - B.x) / (C.y - B.y);
     }
     double deltaAC = 0;
     if (C.y - A.y != 0) {
-        deltaAC = (double) (C.x - A.x) / (C.y - A.y);
+        deltaAC = (C.x - A.x) / (C.y - A.y);
     }
 
     double deltaABz = 0;
@@ -166,7 +175,7 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
     }
     double deltaBCz = 0;
     if (C.y - B.y != 0 && C.z != B.z) {
-        deltaBC = (C.z - B.z) / (C.y - B.y);
+        deltaBCz = (C.z - B.z) / (C.y - B.y);
     }
     double deltaACz = 0;
     if (C.y - A.y != 0 && C.z != A.z) {
@@ -244,6 +253,10 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         tmp = deltaACb;
         deltaACb = deltaABb;
         deltaABb = tmp;
+
+        tmp = deltaACz;
+        deltaACz = deltaABz;
+        deltaABz = tmp;
     }
 
     for(float y = A.y; y <= C.y;y++) {
@@ -278,9 +291,9 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
 }
 
 
-void horizontal_line(float x, float x2, float y, double zl, double zr, float r1, float r2, float g1, float g2, float b1, float b2) {
+void horizontal_line(double x, double x2, double y, double zl, double zr, double r1, double r2, double g1, double g2, double b1, double b2) {
     if (x > x2){
-        float tmp = x;
+        double tmp = x;
         x = x2;
         x2 = tmp;
     }
@@ -288,10 +301,12 @@ void horizontal_line(float x, float x2, float y, double zl, double zr, float r1,
     double dr = (r2 - r1)/fabs(x2 - x);
     double dg = (g2 - g1)/fabs(x2 - x);
     double db = (b2 - b1)/fabs(x2 - x);
+    double dz = (zr - zl)/fabs(x2 - x);
     for (;x < x2;x++) {
         put_pixel(x, y,zl, r1, g1, b1);
         r1 += dr;
         g1 += dg;
         b1 += db;
+        zl += dz;
     }
 };

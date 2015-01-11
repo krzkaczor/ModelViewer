@@ -6,6 +6,8 @@
 
 @class Color;
 @class Vector;
+@class SceneModel;
+@class Camera;
 
 
 @interface LightSource : NSObject
@@ -14,6 +16,8 @@
 @property double c2, c1, c0;
 
 - (instancetype)initWithPosition:(Vector *)position color:(Color *)color;
+
+- (void)lightModel:(SceneModel *)sceneModel forCamera:(Camera *)camera;
 
 + (instancetype)sourceWithPosition:(Vector *)position color:(Color *)color;
 

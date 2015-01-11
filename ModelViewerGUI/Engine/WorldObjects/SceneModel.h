@@ -16,7 +16,4 @@
 - (instancetype)initWithModel:(Model *)model modelToWorldMatrix:(YCMatrix *)modelToWorldMatrix;
 
 + (instancetype)modelOnSceneWithModel:(Model *)model modelToWorldMatrix:(YCMatrix *)modelToWorldMatrix;
-
-- (void)lightUsingLightSource:(LightSource*) lightSource;
-
 @end

@@ -52,34 +52,31 @@
     double size = 100;
     id<Projection> projection = [OrthographicProjection projectionWithRight:size left:-size top:size bottom:-size far:1 near:10];
 
-    Camera* frontCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    self.frontCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
 
-    Camera* topCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
-    topCamera.worldToViewMatrix = [YCMatrix rotateXWithAngle:M_PI / 2];
+    self.topCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    self.topCamera.worldToViewMatrix = [YCMatrix rotateXWithAngle:M_PI / 2];
 
-    Camera* sideCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
-    sideCamera.worldToViewMatrix = [YCMatrix rotateYWithAngle:M_PI / 2];
+    self.sideCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
+    self.sideCamera.worldToViewMatrix = [YCMatrix rotateYWithAngle:M_PI / 2];
 
-    self.helperCameras = [@[frontCamera, topCamera, sideCamera] mutableCopy];
-}
+    id<Projection> perspectiveProjection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
+    self.mainCamera = [Camera cameraWithHeight:400 width:400 projection:perspectiveProjection];
+    self.mainCamera.position = [Vector vectorWithX:0 y:0 z:-45];
+    self.mainCamera.eyePosition = [Vector vectorWithX:0 y:0 z:-50];
+    //camera.up = [Vector vectorWithX:0.9 y:1 z:0];
+    [self.mainCamera updateMatrix];
+};
 
 
 - (NSArray*)generateFrames {
-    id<Projection> projection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
-    Camera *camera = [Camera cameraWithHeight:400 width:400 projection:projection];
 
-    //setup camera
-    camera.position = [Vector vectorWithX:0 y:0 z:-45];
-    camera.eyePosition = [Vector vectorWithX:0 y:0 z:-50];
-    //camera.up = [Vector vectorWithX:0.9 y:1 z:0];
-    [camera updateMatrix];
+    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:self.mainCamera.position color:[Color colorWithR:0 g:1 b:0]]];
 
-    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:camera.position color:[Color colorWithR:0 g:1 b:0]]];
-
-    NSImage* mainCameraView = [self.renderer renderScene:self.scene usingCamera:camera putAdditionalInfo:NO];
-    NSImage* frontCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[0] putAdditionalInfo:YES] ;
-    NSImage* topCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[1] putAdditionalInfo:YES];
-    NSImage* sideCameraView = [self.renderer renderScene:self.scene usingCamera:self.helperCameras[2] putAdditionalInfo:YES];
+    NSImage* mainCameraView = [self.renderer renderScene:self.scene usingCamera:self.mainCamera putAdditionalInfo:NO];
+    NSImage* frontCameraView = [self.renderer renderScene:self.scene usingCamera:self.frontCamera putAdditionalInfo:YES] ;
+    NSImage* topCameraView = [self.renderer renderScene:self.scene usingCamera:self.topCamera putAdditionalInfo:YES];
+    NSImage* sideCameraView = [self.renderer renderScene:self.scene usingCamera:self.sideCamera putAdditionalInfo:YES];
 
     return @[mainCameraView, topCameraView, frontCameraView, sideCameraView];
 }
@@ -96,9 +93,15 @@
 -(void)loadLightConfig:(NSString*)path {
     self.scene.lightSource = [self.lightSourceLoader loadLightSourceFromFile:path];
 
-    //refactor
-    [self.scene.sceneModels[0] lightUsingLightSource:self.scene.lightSource];
-    [self putConstantDebugData];
+    [self updateLight];
+}
+
+- (void)updateLight {
+    [self.scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
+        [self.scene.lightSource lightModel:sceneModel forCamera:self.mainCamera];
+        [self putConstantDebugData];
+    }];
+
 }
 
 - (void)run {

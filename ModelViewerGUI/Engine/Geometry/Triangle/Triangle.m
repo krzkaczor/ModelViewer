@@ -16,21 +16,9 @@
 - (instancetype)initWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3 {
     self = [super init];
     if (self) {
-        //sort points by y
-        NSArray *arr = @[p1, p2 ,p3];
-        NSArray *sortedArray = [arr sortedArrayUsingComparator:^NSComparisonResult(Vertex * a, Vertex * b) {
-            NSNumber *first = @(a.position.y);
-            NSNumber *second = @(b.position.y);
-            NSComparisonResult res = [first compare:second];
-            if (res != NSOrderedSame) return res;
-            //sort by x if y are equal
-            first = @(a.position.x);
-            second = @(b.position.x);
-            return [first compare:second];
-        }];
-        self.v1 = sortedArray[0];
-        self.v2 = sortedArray[1];
-        self.v3 = sortedArray[2];
+        self.v1 = p1;
+        self.v2 = p2;
+        self.v3 = p3;
 
         [self.v1 connectedTo:self];
         [self.v2 connectedTo:self];
@@ -38,6 +26,25 @@
     }
 
     return self;
+}
+
+- (void)sortVertices {
+    //sort points by y
+    NSArray *arr = @[self.v1, self.v2 ,self.v3];
+    NSArray *sortedArray = [arr sortedArrayUsingComparator:^NSComparisonResult(Vertex * a, Vertex * b) {
+        NSNumber *first = @(a.position.y);
+        NSNumber *second = @(b.position.y);
+        NSComparisonResult res = [first compare:second];
+        if (res != NSOrderedSame) return res;
+        //sort by x if y are equal
+        first = @(a.position.x);
+        second = @(b.position.x);
+        return [first compare:second];
+    }];
+
+    self.v1 = sortedArray[0];
+    self.v2 = sortedArray[1];
+    self.v3 = sortedArray[2];
 }
 
 + (instancetype)triangleWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3 {
@@ -53,28 +60,29 @@
 }
 
 - (void)calculateNormalKnowingPointInside:(Vector *)pointInside {
-    YCMatrix* a = [[_v1.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
-    YCMatrix* b = [[_v3.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
+    YCMatrix* a = [[_v3.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
+    YCMatrix* b = [[_v1.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
 
-    YCMatrix* normal = [[a vectorByCrossProduct:b] normalizeVector];
-    YCMatrix* negatedNormal = [normal matrixByNegating];
+    self.normal = [[a vectorByCrossProduct:b] normalizeVector];
+    //YCMatrix* negatedNormal = [normal matrixByNegating];
 
     //check which one leads outside of model
     //shitty way but it is done only once after loading model
-    YCMatrix* vector1 = self.v1.position.toMatrix;
-    YCMatrix* vectorWithNormal = [vector1 matrixByAdding:normal];
-    YCMatrix* vectorWithNegatedNormal = [vector1 matrixByAdding:negatedNormal];
-
-    double len1 = [[vectorWithNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
-    double len2 = [[vectorWithNegatedNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
-
-    if (len1 > len2)
-        self.normal = normal;
-    else
-        self.normal = negatedNormal;
+//    YCMatrix* vector1 = self.v1.position.toMatrix;
+//    YCMatrix* vectorWithNormal = [vector1 matrixByAdding:normal];
+//    YCMatrix* vectorWithNegatedNormal = [vector1 matrixByAdding:negatedNormal];
+//
+//    double len1 = [[vectorWithNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
+//    double len2 = [[vectorWithNegatedNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
+//
+//    if (len1 > len2)
+//        self.normal = normal;
+//    else
+//        self.normal = negatedNormal;
 }
 
 - (NSArray*)split {
+    [self sortVertices];
     double x1 = self.v1.position.x;
     double y1 = self.v1.position.y;
     double z1 = self.v1.position.z;
@@ -115,6 +123,9 @@
     Vertex* v4 = [Vertex vertexWithPosition:[Vector vectorWithX:x4 y:y4 z:z4]color:[Color colorWithR:r4 g:g4 b:b4]];
     Triangle* t1 = [Triangle triangleWithP1:v1 p2:v2 p3:v4];
     Triangle* t2 = [Triangle triangleWithP1:v2 p2:v3 p3:v4];
+
+    [t1 sortVertices];
+    [t2 sortVertices];
 
     return @[t1, t2];
 }

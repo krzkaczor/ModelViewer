@@ -61,20 +61,13 @@
 }
 
 - (void)calculateNormal {
-    int l = self.triangles.count;
-
-    __block double x, y, z;
-    x = y = z = 0;
-
+    YCMatrix* sumOfVectors = [[Vector vectorWithX:0 y:0 z:0] toMatrix];
     [self.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
         YCMatrix* normal = [triangle normal];
-        x += [normal valueAtRow:0 Column:0];
-        y += [normal valueAtRow:1 Column:0];
-        z += [normal valueAtRow:2 Column:0];
+        [sumOfVectors add:normal];
     }];
 
-    double normal_arr [] = {x / l, y / l, z / l};
-    self.normal = [[YCMatrix matrixFromArray:normal_arr Rows:3 Columns:1] normalizeVector];
+    self.normal = [sumOfVectors normalizeVector];
 }
 
 

@@ -40,6 +40,16 @@
     return [Color colorWithR:self.r > 1? 1: self.r g:self.g > 1? 1: self.g b:self.b > 1? 1: self.b];
 }
 
+- (NSString *)description {
+    NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
+    [description appendFormat:@"self.r=%f", self.r];
+    [description appendFormat:@", self.g=%f", self.g];
+    [description appendFormat:@", self.b=%f", self.b];
+    [description appendString:@">"];
+    return description;
+}
+
+
 + (Color *)red {
     return [Color colorWithR:1 g:0 b:0];
 }

@@ -15,6 +15,7 @@
 
 - (Color *)normalize;
 
+- (NSString *)description;
 + (Color *)red;
 
 + (Color *)black;

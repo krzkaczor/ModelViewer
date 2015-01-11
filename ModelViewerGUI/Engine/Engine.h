@@ -9,6 +9,7 @@
 @protocol LightSourceLoader;
 @class TriangleRenderer;
 @class SceneRenderer;
+@class Camera;
 
 
 @interface Engine : NSObject
@@ -16,7 +17,11 @@
 @property (readonly) id<LightSourceLoader> lightSourceLoader;
 @property (readonly) Scene* scene;
 @property (readonly) SceneRenderer* renderer;
-@property(nonatomic, strong) NSMutableArray *helperCameras;
+
+@property(nonatomic, strong) Camera *frontCamera;
+@property(nonatomic, strong) Camera *topCamera;
+@property(nonatomic, strong) Camera *sideCamera;
+@property(nonatomic, strong) Camera *mainCamera;
 
 - (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader;
 
