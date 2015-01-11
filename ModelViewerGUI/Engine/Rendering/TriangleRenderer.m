@@ -69,7 +69,7 @@ int width, height;
     z = triangle.v3.position.z;
     TPoint C = {x, y,z, (UInt8) (triangle.v3.color.r * 255), (UInt8) (triangle.v3.color.g * 255), (UInt8) (triangle.v3.color.b  * 255)};
 
-    if (fabs(A.y - B.y) < 0.00000000001 && fabs(A.y - C.y) < 0.00000000001)
+    if (A.y == B.y && A.y == C.y)
         return;
 
     render_triangle(A, B, C);
@@ -130,7 +130,7 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
-    memset(buf, 255, sizeof (UInt8) * width*height*3);
+    memset(buf, 75, sizeof (UInt8) * width*height*3);
 
     for (int i = 0;i < width*height;i++) {
         bufZ[i] = -DBL_MAX;
