@@ -69,7 +69,7 @@ int width, height;
     z = triangle.v3.position.z;
     TPoint C = {x, y,z, (UInt8) (triangle.v3.color.r * 255), (UInt8) (triangle.v3.color.g * 255), (UInt8) (triangle.v3.color.b  * 255)};
 
-    if (A.y == B.y && A.y == C.y)
+    if (fabs(A.y - B.y) < 0.00000000001 && fabs(A.y - C.y) < 0.00000000001)
         return;
 
     render_triangle(A, B, C);
@@ -130,7 +130,7 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
-    memset(buf, 75, sizeof (UInt8) * width*height*3);
+    memset(buf, 255, sizeof (UInt8) * width*height*3);
 
     for (int i = 0;i < width*height;i++) {
         bufZ[i] = -DBL_MAX;
@@ -259,7 +259,7 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
         deltaABz = tmp;
     }
 
-    for(float y = A.y; y <= C.y;y++) {
+    for(double y = A.y; y <= C.y;y++) {
         horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
 
         if (y >= B.y){
@@ -297,6 +297,8 @@ void horizontal_line(double x, double x2, double y, double zl, double zr, double
         x = x2;
         x2 = tmp;
     }
+    x = floor(x);
+    x2 = ceil(x2);
 
     double dr = (r2 - r1)/fabs(x2 - x);
     double dg = (g2 - g1)/fabs(x2 - x);
