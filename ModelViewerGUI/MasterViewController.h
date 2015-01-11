@@ -16,6 +16,7 @@
 @property (weak) IBOutlet NSImageView *bottomLeftImage;
 @property (weak) IBOutlet NSImageView *topRightImage;
 @property (weak) IBOutlet NSImageView *bottomRightImage;
+- (IBAction)loadNewModelClicked:(NSButton *)sender;
 
 
 

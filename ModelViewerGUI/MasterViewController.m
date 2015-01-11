@@ -40,13 +40,10 @@
     self.engine = [[Engine alloc] initWithSceneModelLoader:brsSceneLoader lightSourceLoader:jsonModelLoader];
     [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/TEA.BRS"];
     [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
-
     [self requestFrame];
 }
 
 - (void)requestFrame {
-    CGSize cgSize = CGSizeMake(400, 400);
-
     NSArray* frames = self.engine.generateFrames;
 
     self.topLeftImage.image = frames[0];
@@ -55,4 +52,20 @@
     self.bottomRightImage.image = frames[3];
 }
 
+- (IBAction)loadNewModelClicked:(NSButton *)sender {
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:YES];
+    
+    NSInteger clicked = [panel runModal];
+    
+    if (clicked == NSFileHandlingPanelOKButton) {
+        for (NSURL *url in [panel URLs]) {
+            [self.engine loadModel:url.path];
+            [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
+            [self requestFrame];
+        }
+    }
+    
+}
 @end
