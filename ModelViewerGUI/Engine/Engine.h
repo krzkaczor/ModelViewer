@@ -44,7 +44,9 @@
 - (void)loadLightConfig:(NSString *)path;
 
 
-- (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(Camera *)camera;
+- (void)lightMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera;
+
+- (void)cameraMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera;
 
 - (void)changeOrthographicCamerasZoomTo:(int)value;
 

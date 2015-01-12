@@ -46,7 +46,6 @@
     Vector* et2 = [self.eyePosition applyTransformation:currentTransform];
     double angle2 = M_PI/2 - atan2(et2.z, et2.y);
     YCMatrix* rot2  = [YCMatrix rotateXWithAngle:angle2];
-    currentTransform = [YCMatrix assembleFromRightToLeft: @[rot2, rot1, translation]];
     double angle3 = self.tilt;
     YCMatrix* rot3 = [YCMatrix rotateZWithAngle:angle3];
     currentTransform = [YCMatrix assembleFromRightToLeft: @[rot3, rot2, rot1, translation]];

@@ -13,6 +13,7 @@
 #import "YCMatrix+Affine3D.h"
 #import "LightSource.h"
 #import "DebugService.h"
+#import "Color.h"
 
 
 @implementation SceneRenderer {
@@ -37,9 +38,18 @@
                 sceneModel.modelToWorldMatrix,
         ]];
 
+//        NSMutableArray *transformedTriangles = [NSMutableArray array];
         [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
             [self.renderer renderTriangle:[[triangle luminate] applyTransformation:modelViewProjectionMatrix]];
         }];
+
+//        [transformedTriangles sortUsingComparator:^NSComparisonResult(Triangle* t1, Triangle* t2) {
+//            return [@(t2.z) compare:@(t1.z)];
+//        }];
+
+//        [transformedTriangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
+//
+//        }];
     }];
 
     if (additionalInfo) {
@@ -49,10 +59,15 @@
                 camera.worldToViewMatrix
         ]];
 
-
         Vector* lightSourcePosition = [scene.lightSource.position applyTransformation:modelViewProjectionMatrix];
         DoublePoint* lightSourcePoint = [DoublePoint pointWithPos:lightSourcePosition color:scene.lightSource.color];
+        camera.view.lightSourceDragPoint = lightSourcePoint.position;
         [self.renderer renderPoint: lightSourcePoint];
+
+        Vector* cameraPosition = [scene.mainCamera.position applyTransformation:modelViewProjectionMatrix];
+        DoublePoint* cameraPoint = [DoublePoint pointWithPos:cameraPosition color:Color.green];
+        camera.view.cameraDragPoint = cameraPosition;
+        [self.renderer renderPoint: cameraPoint];
     }
 
 

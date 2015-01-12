@@ -21,4 +21,6 @@
 + (Color *)black;
 
 + (Color *)white;
+
++ (Color *)green;
 @end

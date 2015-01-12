@@ -58,8 +58,8 @@
     Vector *copy = [[[self class] allocWithZone:zone] init];
 
     if (copy != nil) {
-        copy.x = self.x;
-        copy.y = self.y;
+        copy->_x = self.x;
+        copy->_y = self.y;
         copy->_z = _z;
     }
 
@@ -72,6 +72,15 @@
     double z = [matrix valueAtRow:2 Column:0];
 
     return [Vector vectorWithX:x y:y z:z];
+}
+
+- (BOOL)isInRadiusOf:(int)i withVector:(Vector *)vector {
+    double minX = vector.x - i;
+    double maxX = vector.x + i;
+    double minY = vector.y - i;
+    double maxY = vector.y + i;
+
+    return self.x >= minX && self.x <= maxX && self.y >= minY && self.y <= maxY;
 }
 
 

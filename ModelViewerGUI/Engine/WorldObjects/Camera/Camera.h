@@ -3,6 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InteractionImage.h"
 
 @class Vector;
 @class YCMatrix;
@@ -13,7 +14,7 @@
 
 @property YCMatrix* worldToViewMatrix;
 @property YCMatrix* viewportMatrix;
-
+@property InteractionImage* view;
 
 @property id<Projection> projection;
 @property int width, height;

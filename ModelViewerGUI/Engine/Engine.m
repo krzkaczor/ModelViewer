@@ -13,20 +13,13 @@
 #import "PerspectiveProjection.h"
 #import "BitmapRenderer.h"
 #import "LightSource.h"
-#import "Vector.h"
 #import "LightSourceLoader.h"
 #import "Model.h"
 #import "Line.h"
-#import "DoublePoint.h"
 #import "SceneRenderer.h"
 #import "Color.h"
 #import "DebugService.h"
-#import "BitmapRenderer.h"
-#import "SceneRenderer.h"
 #import "OrthographicProjection.h"
-#import "YCMatrix+Advanced.h"
-#import "InteractionImage.h"
-#import "OrthographicCamera.h"
 #import "MasterViewController.h"
 
 @implementation Engine {
@@ -37,18 +30,21 @@
     _topImage = topImage;
     topImage.engine = self;
     topImage.assignedCamera = self.topCamera;
+    self.topCamera.view = topImage;
 }
 
 - (void)setSideImage:(InteractionImage *)sideImage {
     _sideImage = sideImage;
     sideImage.engine = self;
     sideImage.assignedCamera = self.sideCamera;
+    self.sideCamera.view = sideImage;
 }
 
 - (void)setFrontImage:(InteractionImage *)frontImage {
     _frontImage = frontImage;
     frontImage.engine = self;
     frontImage.assignedCamera = self.frontCamera;
+    self.frontCamera.view = frontImage;
 }
 
 - (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader {
@@ -80,7 +76,6 @@
     self.mainCamera = [Camera cameraWithHeight:400 width:400 projection:perspectiveProjection];
     self.mainCamera.position = [Vector vectorWithX:0 y:0 z:-45];
     self.mainCamera.eyePosition = [Vector vectorWithX:0 y:0 z:-50];
-    //camera.up = [Vector vectorWithX:0.9 y:1 z:0];
     [self.mainCamera updateMatrix];
 };
 
@@ -124,17 +119,18 @@
     [DebugService.instance.constantLines addObjectsFromArray: [@[versorX, versorY, versorZ] mutableCopy]];
 }
 
-- (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera*)camera {
+- (void)lightMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera {
     self.scene.lightSource.position = [camera transform:self.scene.lightSource.position fromClickedVector:clickedPoint];
 
     [self.scene putLight];
     [self updateScreen];
 }
 
-- (void)mouseDragged:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera*)camera {
+- (void)cameraMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera {
+    self.mainCamera.position = [camera transform:self.mainCamera.position fromClickedVector:clickedPoint];
+    [self.mainCamera updateMatrix];
 
-
-    [self.scene putLight];
+    //[self.scene putLight];
     [self updateScreen];
 }
 

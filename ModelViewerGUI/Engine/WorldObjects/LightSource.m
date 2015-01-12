@@ -38,22 +38,32 @@
 
 - (void)lightModel:(SceneModel *)sceneModel forCamera:(Camera*)camera {
     [sceneModel.model.vertices enumerateObjectsUsingBlock:^(Vertex* vertex, NSUInteger idx, BOOL *stop) {
-        YCMatrix *point = [vertex.position toMatrix];
-
-        //vector to light
-        YCMatrix *vectorToLightSource = [[self.position toMatrix] matrixBySubtracting:point];
-        double r = [vectorToLightSource vectorLength];
-
-        double fattr = 1/(self.c2*r*r + self.c1 * r + self.c0);
-
-        //YCMatrix* normal = [[[Vector vectorWithX:1 y:1 z:-1] toMatrix] normalizeVector];
-        double dot = [vertex.normal dotWith:[vectorToLightSource normalizeVector]];
-        vertex.luminescence.r += 1 * fattr * self.color.r * fmax(dot, 0);
-        vertex.luminescence.g += 1 * fattr * self.color.g * fmax(dot, 0);
-        vertex.luminescence.b += 1 * fattr * self.color.b * fmax(dot, 0);
-
-        vertex.luminescence = [vertex.luminescence normalize];
+        [self lightVertex:vertex forCamera:camera];
     }];
+}
+
+- (void) lightVertex:(Vertex *)vertex forCamera:(Camera*)camera {
+    YCMatrix *point = [vertex.position toMatrix];
+
+    //vector to light
+    YCMatrix *vectorToLightSource = [[self.position toMatrix] matrixBySubtracting:point];
+    YCMatrix *vectorToLightSourceNormalized = [vectorToLightSource normalizeVector];
+    double r = [vectorToLightSource vectorLength];
+    double fattr = 1/(self.c2*r*r + self.c1 * r + self.c0);
+
+    //diffuse
+    double dot = fmax([vertex.normal dotWith:vectorToLightSourceNormalized], 0);
+    //specular
+    YCMatrix* vectorToCamera = [[[camera.position toMatrix] matrixBySubtracting:point] normalizeVector];
+    YCMatrix* mirroredVectorToCamera = [[[vertex.normal matrixByMultiplyingWithScalar:2 * fmax([vertex.normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+    double v = fmax([vectorToLightSourceNormalized dotWith:mirroredVectorToCamera], 0);
+    double s = fmax(pow(v, 100), 0);
+
+    vertex.luminescence.r += 1 * fattr * self.color.r * (dot + s);
+    vertex.luminescence.g += 1 * fattr * self.color.g * (dot + s);
+    vertex.luminescence.b += 1 * fattr * self.color.b * (dot + s);
+
+    vertex.luminescence = [vertex.luminescence normalize];
 }
 
 

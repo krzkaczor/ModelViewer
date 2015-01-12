@@ -6,10 +6,12 @@
 //  Copyright (c) 2015 kaczor. All rights reserved.
 //
 
+#import <objc/objc-api.h>
 #import "InteractionImage.h"
 #import "Engine.h"
 #import "Vector.h"
-#import "Camera.h"
+
+#define DRAG_RADIUS 10
 
 @implementation InteractionImage
 
@@ -18,12 +20,34 @@
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+    Vector *pointClickedOnBitmapByVector = [self getVectorInBitmapCoordinates:theEvent];
+    printf("Drag point: %f x %f\n", _lightSourceDragPoint.x, _lightSourceDragPoint.y);
+    self.draggedLight = [self.lightSourceDragPoint isInRadiusOf:DRAG_RADIUS withVector:pointClickedOnBitmapByVector];
+    if (!self.draggedLight) {
+        self.draggedCamera = [self.cameraDragPoint isInRadiusOf:DRAG_RADIUS withVector:pointClickedOnBitmapByVector];
+    }
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+    Vector *pointClickedOnBitmapByVector = [self getVectorInBitmapCoordinates:theEvent];
+
+    if (self.draggedLight){
+        [self.engine lightMovedTo:pointClickedOnBitmapByVector onViewShownBy:self.assignedCamera];
+    }
+    if (self.draggedCamera){
+        [self.engine cameraMovedTo:pointClickedOnBitmapByVector onViewShownBy:self.assignedCamera];
+    }
+}
+
+-(void)mouseUp:(NSEvent *)theEvent {
+    self.draggedLight = self.draggedCamera = NO;
+}
+
+- (Vector *)getVectorInBitmapCoordinates:(NSEvent *)theEvent {
     NSPoint p = [self convertPoint:theEvent.locationInWindow fromView:nil];
     NSPoint pointClickedOnBitmap = CGPointMake(p.x, _frame.size.height - p.y); //transform to the same coordinate system as used in engine
-    printf("Clicked %f x %f\n", pointClickedOnBitmap.x, pointClickedOnBitmap.y);
     Vector* pointClickedOnBitmapByVector = [Vector vectorWithX:pointClickedOnBitmap.x y:pointClickedOnBitmap.y z:0];
-
-    [self.engine mouseDown:pointClickedOnBitmapByVector onViewShownBy:self.assignedCamera ];
+    return pointClickedOnBitmapByVector;
 }
 
 @end

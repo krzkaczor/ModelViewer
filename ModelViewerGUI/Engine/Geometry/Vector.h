@@ -26,4 +26,6 @@
 - (id)copyWithZone:(NSZone *)zone;
 
 - (NSString *)description;
+
+- (BOOL)isInRadiusOf:(int)i withVector:(Vector *)vector;
 @end

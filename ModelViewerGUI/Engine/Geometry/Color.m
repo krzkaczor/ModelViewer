@@ -2,6 +2,7 @@
 // Created by Krzysztof Kaczor on 1/4/15.
 //
 
+#import <objc/objc-api.h>
 #import "Color.h"
 
 
@@ -60,5 +61,9 @@
 
 + (Color *)white {
     return [Color colorWithR:1 g:1 b:1];
+}
+
++ (Color *)green {
+    return [Color colorWithR:0 g:1 b:0];
 }
 @end

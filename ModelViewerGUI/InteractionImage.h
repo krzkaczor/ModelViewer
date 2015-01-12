@@ -10,8 +10,14 @@
 
 @class Engine;
 @class Camera;
+@class DoublePoint;
+@class Vector;
 
 @interface InteractionImage : NSImageView
 @property (weak) Engine* engine;
 @property(nonatomic, strong) Camera *assignedCamera;
+@property(nonatomic, strong) Vector *lightSourceDragPoint;
+@property(nonatomic) BOOL draggedLight;
+@property(nonatomic, strong) Vector *cameraDragPoint;
+@property(nonatomic) BOOL draggedCamera;
 @end

@@ -23,6 +23,7 @@
         [self.v1 connectedTo:self];
         [self.v2 connectedTo:self];
         [self.v3 connectedTo:self];
+        _z = (p1.position.z + p2.position.z + p3.position.z) / 3;
     }
 
     return self;
@@ -80,7 +81,6 @@
 //    else
 //        self.normal = negatedNormal;
 }
-
 
 - (id)copyWithZone:(NSZone *)zone {
     Triangle *copy = [[[self class] allocWithZone:zone] init];

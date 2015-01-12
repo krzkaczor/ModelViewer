@@ -90,6 +90,8 @@ int triangles_rendered = 0;
 
     if (A.y == B.y && A.y == C.y)
         return;
+    if(A.y < 0 && B.y < 0 && C.y < 0)
+        return;
 
     render_triangle(A, B, C);
 }

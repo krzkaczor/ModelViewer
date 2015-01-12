@@ -30,6 +30,7 @@
 }
 
 - (void)addSceneModel:(SceneModel *)model {
+    [self.sceneModels removeAllObjects]; //for now allow only one object on scene
     [self.sceneModels addObject:model];
 }
 

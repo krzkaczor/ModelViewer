@@ -19,6 +19,8 @@
 @property Vertex *v3;
 @property YCMatrix * normal; //not homogenous vector
 
+@property(nonatomic, readonly) double z;
+
 - (instancetype)initWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3;
 
 - (void)calculateNormal;
