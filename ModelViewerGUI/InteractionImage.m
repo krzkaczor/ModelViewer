@@ -26,6 +26,9 @@
     if (!self.draggedLight) {
         self.draggedCamera = [self.cameraDragPoint isInRadiusOf:DRAG_RADIUS withVector:pointClickedOnBitmapByVector];
     }
+    if (!self.draggedCamera) {
+        self.draggedEye = [self.eyeDragPoint isInRadiusOf:DRAG_RADIUS withVector:pointClickedOnBitmapByVector];
+    }
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -37,10 +40,13 @@
     if (self.draggedCamera){
         [self.engine cameraMovedTo:pointClickedOnBitmapByVector onViewShownBy:self.assignedCamera];
     }
+    if (self.draggedEye){
+        [self.engine eyeMovedTo:pointClickedOnBitmapByVector onViewShownBy:self.assignedCamera];
+    }
 }
 
 -(void)mouseUp:(NSEvent *)theEvent {
-    self.draggedLight = self.draggedCamera = NO;
+    self.draggedLight = self.draggedCamera = self.draggedEye = NO;
 }
 
 - (Vector *)getVectorInBitmapCoordinates:(NSEvent *)theEvent {

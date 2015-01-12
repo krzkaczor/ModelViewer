@@ -66,4 +66,8 @@
 + (Color *)green {
     return [Color colorWithR:0 g:1 b:0];
 }
+
++ (Color *)blue {
+    return [Color colorWithR:0 g:0 b:1];
+}
 @end

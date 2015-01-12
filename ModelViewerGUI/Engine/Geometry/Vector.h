@@ -28,4 +28,6 @@
 - (NSString *)description;
 
 - (BOOL)isInRadiusOf:(int)i withVector:(Vector *)vector;
+
+- (Vector *)negate;
 @end

@@ -127,10 +127,19 @@
 }
 
 - (void)cameraMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera {
-    self.mainCamera.position = [camera transform:self.mainCamera.position fromClickedVector:clickedPoint];
+    self.mainCamera.position = [[camera transform:self.mainCamera.position fromClickedVector:clickedPoint] negate];
     [self.mainCamera updateMatrix];
 
-    //[self.scene putLight];
+    [self.scene putLight];
+    [self updateScreen];
+}
+
+
+- (void)eyeMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera {
+    self.mainCamera.eyePosition = [[camera transform:self.mainCamera.eyePosition fromClickedVector:clickedPoint] negate];
+    [self.mainCamera updateMatrix];
+
+    [self.scene putLight];
     [self updateScreen];
 }
 

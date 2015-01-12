@@ -51,4 +51,6 @@
 - (void)changeOrthographicCamerasZoomTo:(int)value;
 
 - (void)mainCameraTiltChangedTo:(double)angle;
+
+- (void)eyeMovedTo:(Vector *)vector onViewShownBy:(OrthographicCamera *)by;
 @end

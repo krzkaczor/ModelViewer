@@ -90,7 +90,11 @@ int triangles_rendered = 0;
 
     if (A.y == B.y && A.y == C.y)
         return;
-    if(A.y < 0 && B.y < 0 && C.y < 0)
+
+    if ((A.x < 0 && B.x < 0 && C.x < 0 )|| (A.x > 400 && B.x > 400 && C.x > 400))
+        return;
+
+    if((A.y < 0 && B.y < 0 && C.y < 0) || (A.y > 400 && B.y > 400 && C.y > 400))
         return;
 
     render_triangle(A, B, C);

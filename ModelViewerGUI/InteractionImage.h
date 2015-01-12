@@ -20,4 +20,6 @@
 @property(nonatomic) BOOL draggedLight;
 @property(nonatomic, strong) Vector *cameraDragPoint;
 @property(nonatomic) BOOL draggedCamera;
+@property(nonatomic) BOOL draggedEye;
+@property(nonatomic, strong) id eyeDragPoint;
 @end

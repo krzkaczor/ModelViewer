@@ -44,7 +44,7 @@
     //3step
     YCMatrix* currentTransform = [YCMatrix assembleFromRightToLeft: @[rot1, translation]];
     Vector* et2 = [self.eyePosition applyTransformation:currentTransform];
-    double angle2 = M_PI/2 - atan2(et2.z, et2.y);
+    double angle2 = -M_PI/2 - atan2(et2.z, et2.y);
     YCMatrix* rot2  = [YCMatrix rotateXWithAngle:angle2];
     double angle3 = self.tilt;
     YCMatrix* rot3 = [YCMatrix rotateZWithAngle:angle3];

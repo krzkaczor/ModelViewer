@@ -14,6 +14,7 @@
 #import "LightSource.h"
 #import "DebugService.h"
 #import "Color.h"
+#import "Engine.h"
 
 
 @implementation SceneRenderer {
@@ -64,10 +65,16 @@
         camera.view.lightSourceDragPoint = lightSourcePoint.position;
         [self.renderer renderPoint: lightSourcePoint];
 
-        Vector* cameraPosition = [scene.mainCamera.position applyTransformation:modelViewProjectionMatrix];
+        Vector* cameraPosition = [[scene.mainCamera.position negate] applyTransformation:modelViewProjectionMatrix];
         DoublePoint* cameraPoint = [DoublePoint pointWithPos:cameraPosition color:Color.green];
         camera.view.cameraDragPoint = cameraPosition;
         [self.renderer renderPoint: cameraPoint];
+
+        Vector* eyePosition = [[scene.mainCamera.eyePosition negate] applyTransformation:modelViewProjectionMatrix];
+        DoublePoint* eyePoint = [DoublePoint pointWithPos:eyePosition color:Color.blue];
+        camera.view.eyeDragPoint = eyePosition;
+
+        [self.renderer renderPoint: eyePoint];
     }
 
 
