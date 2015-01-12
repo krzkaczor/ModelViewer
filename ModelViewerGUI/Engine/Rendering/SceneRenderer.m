@@ -30,14 +30,14 @@
 - (NSImage *)renderScene:(Scene *)scene usingCamera:(Camera*)camera putAdditionalInfo:(BOOL)additionalInfo {
     [self.renderer startSceneRendering];
     [scene.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
-        [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
-            YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
-                    camera.viewportMatrix,
-                    camera.projection.projectionMatrix,
-                    camera.worldToViewMatrix,
-                    sceneModel.modelToWorldMatrix,
-            ]];
+        YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
+                camera.viewportMatrix,
+                camera.projection.projectionMatrix,
+                camera.worldToViewMatrix,
+                sceneModel.modelToWorldMatrix,
+        ]];
 
+        [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
             [self.renderer renderTriangle:[[triangle luminate] applyTransformation:modelViewProjectionMatrix]];
         }];
     }];

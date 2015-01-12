@@ -8,8 +8,19 @@
 #import "Vertex.h"
 #import "Vector.h"
 #import "Color.h"
-#define POINT_SIZE 5
 
+
+#include <sys/time.h>
+
+double get_time()
+{
+    struct timeval t;
+    struct timezone tzp;
+    gettimeofday(&t, &tzp);
+    return t.tv_sec + t.tv_usec*1e-6;
+}
+
+#define POINT_SIZE 5
 struct TPoint {
     double x, y, z;
     UInt8 r,g,b;
@@ -29,6 +40,7 @@ UInt8* buf;
 double* bufZ;
 int width, height;
 
+double renderingStartedAt;
 int triangles_rendered = 0;
 
 @implementation BitmapRenderer {
@@ -55,6 +67,8 @@ int triangles_rendered = 0;
 
 
 - (void)startSceneRendering {
+    renderingStartedAt = get_time();
+    triangles_rendered = 0;
     clear_buffers();
 }
 
@@ -104,6 +118,10 @@ int triangles_rendered = 0;
 }
 
 - (NSImage*)finishRendering {
+    double renderingFinishedAt = get_time();
+    double renderingTime = renderingFinishedAt - renderingStartedAt;
+    printf("-------------------------------------------------------------\n");
+    printf("Rendering took: %f\n", renderingTime);
     printf("Triangles rendered: %i\n", triangles_rendered);
 
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
@@ -141,7 +159,6 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
-    triangles_rendered = 0;
     memset(buf, 75, sizeof (UInt8) * width*height*3);
 
     for (int i = 0;i < width*height;i++) {
