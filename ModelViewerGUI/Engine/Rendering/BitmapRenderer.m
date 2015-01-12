@@ -173,11 +173,12 @@ void clear_buffers() {
 }
 
 void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
-    if (x >= width || y >= height || x < 0 || y < 0)
-        return;
 
     int xI = (int)round(x);
     int yI = (int)round(y);
+
+    if (xI >= width || yI >= height || xI < 0 || yI < 0)
+        return;
 
     int bufZAddr = yI * width + xI;
     if (bufZ[bufZAddr] >= z )

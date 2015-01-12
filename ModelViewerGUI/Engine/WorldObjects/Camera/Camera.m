@@ -15,6 +15,13 @@
 @implementation Camera {
 
 }
+- (void)setPosition:(Vector *)position {
+    YCMatrix* delta = [[position toMatrix] matrixBySubtracting: [_position toMatrix]];
+    _eyePosition = [Vector vectorFromMatrix:[[_eyePosition toMatrix] matrixByAdding:delta]];
+    _position = position;
+
+}
+
 - (instancetype)initWithHeight:(int)height width:(int)width projection:(id <Projection>)projection {
     self = [super init];
     if (self) {
@@ -30,9 +37,10 @@
 
         self.tilt = 0;
     }
-
     return self;
 }
+
+
 
 - (void)updateMatrix {
     // 1step

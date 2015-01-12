@@ -23,19 +23,19 @@
 		C81A531FB13DF7144897A7D2 /* BitmapRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5F607E4F1E0ACB35D014 /* BitmapRenderer.m */; };
 		C81A5383CC6CE48AF31AC5E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C81A5C33DB28DB56D21DD032 /* MainMenu.xib */; };
 		C81A5395A95EE8866D21C6D8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5387114ED71FB0F220FE /* MasterViewController.m */; };
+		C81A53D522F08EC7D06DFC6C /* sphere.brs in Resources */ = {isa = PBXBuildFile; fileRef = C81A5804AB04EEC0C3B2A5D5 /* sphere.brs */; };
 		C81A5409B9E16770B3280CA5 /* Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5E3CC5D8EDE12B1FFEC3 /* Color.m */; };
 		C81A5451D20B49C850290546 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5FA87100653DF47D1D20 /* AppDelegate.m */; };
 		C81A560E5A74FB728803C5E0 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A597BF2F3EB01BCEEF188 /* Scene.m */; };
-		C81A56295F3FA62ED82E4A23 /* TEA.BRS in Resources */ = {isa = PBXBuildFile; fileRef = C81A561595A25C30D5530E14 /* TEA.BRS */; };
-		C81A5691654A60DE1048A818 /* kuchnia.brs in Resources */ = {isa = PBXBuildFile; fileRef = C81A5FC7231BF6BD23BF291A /* kuchnia.brs */; };
 		C81A56B9089D176632516AF7 /* DoublePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5D1C0EBC146B86FC7913 /* DoublePoint.m */; };
 		C81A5789ACB3A8003585DC4E /* Vertex.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5300EB1430B1B95BFD9D /* Vertex.m */; };
 		C81A58CD38CEF785C90B2C58 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A50BD3C1AE8170853D7F6 /* Camera.m */; };
+		C81A596BFACF2064DBD6EA96 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = C81A596D18B239E36157DC76 /* cube.obj */; };
 		C81A59739F744CC5AA3EB6AA /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5D7C3917A321E75A5CC3 /* Vector.m */; };
-		C81A59D496441F501A29DA86 /* CUBES.BRS in Resources */ = {isa = PBXBuildFile; fileRef = C81A5B9792BCD4BC991F3B58 /* CUBES.BRS */; };
+		C81A59D496441F501A29DA86 /* cubes.brs in Resources */ = {isa = PBXBuildFile; fileRef = C81A5B9792BCD4BC991F3B58 /* cubes.brs */; };
 		C81A59E5D354303F20D3A4AC /* OrthographicProjection.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5DE989876400657E1007 /* OrthographicProjection.m */; };
+		C81A5A2B01E2ED2455B8C21A /* ObjSceneModelLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A56F947C30A65B391C153 /* ObjSceneModelLoader.m */; };
 		C81A5A4C7DDBEAFC334DC27D /* DebugService.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A551BE849A5B711C98275 /* DebugService.m */; };
-		C81A5A62A24A61BCC158A8A1 /* room.brs in Resources */ = {isa = PBXBuildFile; fileRef = C81A5E4A3748FC422C826673 /* room.brs */; };
 		C81A5A97E7A490E7FFADBD03 /* LightSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A54F0F54715763D4497FB /* LightSource.m */; };
 		C81A5C63B9993C122BC1619C /* JsonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5185B309588F0E6A0D2B /* JsonLoader.m */; };
 		C81A5CC232EB06BBEB0C5BC3 /* SampleObject.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A5EF3F604ADED13356383 /* SampleObject.json */; };
@@ -88,16 +88,18 @@
 		C81A54FA1C734C454B6AFAB4 /* SceneRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneRenderer.m; sourceTree = "<group>"; };
 		C81A551BE849A5B711C98275 /* DebugService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugService.m; sourceTree = "<group>"; };
 		C81A553051B9CCAA6C8D81C9 /* SampleObject2.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = SampleObject2.json; sourceTree = "<group>"; };
-		C81A561595A25C30D5530E14 /* TEA.BRS */ = {isa = PBXFileReference; lastKnownFileType = file.BRS; path = TEA.BRS; sourceTree = "<group>"; };
 		C81A5698A054E5EBE26F6D6A /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		C81A56A1CBD03C7871DB6FBC /* PerspectiveProjection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveProjection.h; sourceTree = "<group>"; };
 		C81A56A502A68ACE0E379EB8 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		C81A56F947C30A65B391C153 /* ObjSceneModelLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjSceneModelLoader.m; sourceTree = "<group>"; };
 		C81A577B80EDCAF20E547217 /* Triangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Triangle.m; sourceTree = "<group>"; };
 		C81A5791A3935D7E0E3B2794 /* OrthographicCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrthographicCamera.h; sourceTree = "<group>"; };
+		C81A5804AB04EEC0C3B2A5D5 /* sphere.brs */ = {isa = PBXFileReference; lastKnownFileType = file.brs; path = sphere.brs; sourceTree = "<group>"; };
 		C81A585DFF32648E7678BA0E /* Transformable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transformable.h; sourceTree = "<group>"; };
 		C81A587279336C0CC14B6B86 /* LightSource1.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = LightSource1.json; sourceTree = "<group>"; };
 		C81A590220C5A7EE8670D536 /* YCMatrix+Affine3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YCMatrix+Affine3D.h"; sourceTree = "<group>"; };
 		C81A5942FEC6160AA1DA30E6 /* LightSourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightSourceLoader.h; sourceTree = "<group>"; };
+		C81A596D18B239E36157DC76 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = file.obj; path = cube.obj; sourceTree = "<group>"; };
 		C81A597BF2F3EB01BCEEF188 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		C81A59D6026AD9AD97629BA0 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		C81A5A0F4233637798973A57 /* SceneRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneRenderer.h; sourceTree = "<group>"; };
@@ -107,10 +109,11 @@
 		C81A5A74FDE0808C04ABE31F /* Projection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projection.h; sourceTree = "<group>"; };
 		C81A5AB5B04BB7CD85C061AC /* SceneModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneModelLoader.h; sourceTree = "<group>"; };
 		C81A5B02647E6314E6AAD432 /* DebugService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugService.h; sourceTree = "<group>"; };
-		C81A5B9792BCD4BC991F3B58 /* CUBES.BRS */ = {isa = PBXFileReference; lastKnownFileType = file.BRS; path = CUBES.BRS; sourceTree = "<group>"; };
+		C81A5B9792BCD4BC991F3B58 /* cubes.brs */ = {isa = PBXFileReference; lastKnownFileType = file.BRS; path = cubes.brs; sourceTree = "<group>"; };
 		C81A5BAEE1DD5201809A1D02 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
 		C81A5BF5B05DDEFDAEC215FC /* OrthographicCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrthographicCamera.m; sourceTree = "<group>"; };
 		C81A5C0FD042CB9C86129008 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		C81A5C2E947A4A6CE8DE8E65 /* ObjSceneModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjSceneModelLoader.h; sourceTree = "<group>"; };
 		C81A5C7D5B0309F9850B402D /* SceneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneModel.m; sourceTree = "<group>"; };
 		C81A5CD1DAE71559789749FF /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		C81A5CDB92B97DEE77709205 /* ScreenRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenRenderer.h; sourceTree = "<group>"; };
@@ -121,7 +124,6 @@
 		C81A5E02CC6BDF4CB3DFAC62 /* MasterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
 		C81A5E24D349D0D071C827A8 /* LightSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightSource.h; sourceTree = "<group>"; };
 		C81A5E3CC5D8EDE12B1FFEC3 /* Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color.m; sourceTree = "<group>"; };
-		C81A5E4A3748FC422C826673 /* room.brs */ = {isa = PBXFileReference; lastKnownFileType = file.brs; path = room.brs; sourceTree = "<group>"; };
 		C81A5E5022EACDB74A6A20CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		C81A5E7F356A0177C5072821 /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
 		C81A5E8170113DF1CFDDEB27 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -131,7 +133,6 @@
 		C81A5F6319989C6C2C481B2E /* JsonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonLoader.h; sourceTree = "<group>"; };
 		C81A5F6FC645BC666C172934 /* PerspectiveProjection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerspectiveProjection.m; sourceTree = "<group>"; };
 		C81A5FA87100653DF47D1D20 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C81A5FC7231BF6BD23BF291A /* kuchnia.brs */ = {isa = PBXFileReference; lastKnownFileType = file.brs; path = kuchnia.brs; sourceTree = "<group>"; };
 		C81A5FFC96165839267E4534 /* BitmapRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapRenderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -233,14 +234,13 @@
 		C81A503F996A58B32DA298EE /* SampleModels */ = {
 			isa = PBXGroup;
 			children = (
-				C81A561595A25C30D5530E14 /* TEA.BRS */,
-				C81A5E4A3748FC422C826673 /* room.brs */,
-				C81A5B9792BCD4BC991F3B58 /* CUBES.BRS */,
-				C81A5FC7231BF6BD23BF291A /* kuchnia.brs */,
+				C81A5B9792BCD4BC991F3B58 /* cubes.brs */,
 				C81A543B1329C57F577F709E /* 2DTriangle.json */,
 				C81A587279336C0CC14B6B86 /* LightSource1.json */,
 				C81A5EF3F604ADED13356383 /* SampleObject.json */,
 				C81A553051B9CCAA6C8D81C9 /* SampleObject2.json */,
+				C81A596D18B239E36157DC76 /* cube.obj */,
+				C81A5804AB04EEC0C3B2A5D5 /* sphere.brs */,
 			);
 			path = SampleModels;
 			sourceTree = SOURCE_ROOT;
@@ -281,6 +281,8 @@
 				C81A5942FEC6160AA1DA30E6 /* LightSourceLoader.h */,
 				C81A52026302F8F67F1F956D /* BrsSceneModelLoader.m */,
 				C81A54A653A5E250D0C7F444 /* BrsSceneModelLoader.h */,
+				C81A56F947C30A65B391C153 /* ObjSceneModelLoader.m */,
+				C81A5C2E947A4A6CE8DE8E65 /* ObjSceneModelLoader.h */,
 			);
 			path = WorldLoader;
 			sourceTree = "<group>";
@@ -448,14 +450,13 @@
 				C81A5383CC6CE48AF31AC5E3 /* MainMenu.xib in Resources */,
 				C81A52B664E2865E23FEFBD7 /* MasterViewController.xib in Resources */,
 				C81A5E9AA924ED0CF944784A /* Podfile in Resources */,
-				C81A56295F3FA62ED82E4A23 /* TEA.BRS in Resources */,
-				C81A5A62A24A61BCC158A8A1 /* room.brs in Resources */,
-				C81A59D496441F501A29DA86 /* CUBES.BRS in Resources */,
-				C81A5691654A60DE1048A818 /* kuchnia.brs in Resources */,
+				C81A59D496441F501A29DA86 /* cubes.brs in Resources */,
 				C81A5DB5BDAAC7D18262205E /* 2DTriangle.json in Resources */,
 				C81A519E5AE1D6AD34F43255 /* LightSource1.json in Resources */,
 				C81A5CC232EB06BBEB0C5BC3 /* SampleObject.json in Resources */,
 				C81A5177CDF3B53255ABCCBF /* SampleObject2.json in Resources */,
+				C81A596BFACF2064DBD6EA96 /* cube.obj in Resources */,
+				C81A53D522F08EC7D06DFC6C /* sphere.brs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +532,7 @@
 				C81A5E713B8BB38F5CEA2465 /* SceneRenderer.m in Sources */,
 				C81A51CE4AF88B733CDB87D1 /* BrsSceneModelLoader.m in Sources */,
 				C81A5D737C3E71CE06CC10D5 /* OrthographicCamera.m in Sources */,
+				C81A5A2B01E2ED2455B8C21A /* ObjSceneModelLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

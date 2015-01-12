@@ -19,7 +19,7 @@
 @property id<Projection> projection;
 @property int width, height;
 
-@property Vector* position;
+@property (nonatomic) Vector* position;
 @property double tilt;
 @property Vector* eyePosition;
 

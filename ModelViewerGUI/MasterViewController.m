@@ -16,6 +16,7 @@
 #import "JsonLoader.h"
 #import "InteractionImage.h"
 #import "BrsSceneModelLoader.h"
+#import "ObjSceneModelLoader.h"
 
 @interface MasterViewController ()
 
@@ -37,14 +38,15 @@
 
     id<LightSourceLoader> jsonModelLoader = [[JsonLoader alloc] init];
     id<SceneModelLoader> brsSceneLoader = [[BrsSceneModelLoader alloc] init];
-    self.engine = [[Engine alloc] initWithSceneModelLoader:brsSceneLoader lightSourceLoader:jsonModelLoader];
+    id<SceneModelLoader> objSceneLoader = [[ObjSceneModelLoader alloc] init];
+    self.engine = [[Engine alloc] initWithSceneModelLoader:objSceneLoader lightSourceLoader:jsonModelLoader];
     self.engine.mainImage = self.topLeftImage;
     self.engine.topImage = self.bottomLeftImage;
     self.engine.frontImage = self.topRightImage;
     self.engine.sideImage = self.bottomRightImage;
     self.engine.vc = self;
     
-    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/TEA.BRS"];
+    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/teapot.obj"];
     [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
 }
 
@@ -74,7 +76,8 @@
     self.tiltLabel.stringValue = [NSString stringWithFormat:@"%i", tiltValueInDegrees];
     NSLog(@"Tilt value changed to: %i", tiltValueInDegrees);
 
-    double tiltValueInRadians = tiltValueInDegrees * (180 / M_PI);
+    double tiltValueInRadians = tiltValueInDegrees * (M_PI / 180);
+    NSLog(@"Tilt value changed to (in radians): %f", tiltValueInRadians);
     [self.engine mainCameraTiltChangedTo:tiltValueInRadians];
 }
 

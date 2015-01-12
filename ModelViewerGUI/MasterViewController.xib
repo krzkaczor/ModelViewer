@@ -74,7 +74,7 @@
                         <subviews>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ic-Za-08i">
                                 <rect key="frame" x="42" y="31" width="196" height="25"/>
-                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="10" maxValue="150" doubleValue="103.33333333333333" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="MIb-k1-JzS"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="10" maxValue="500" doubleValue="103.33333333333333" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="MIb-k1-JzS"/>
                                 <connections>
                                     <action selector="orthoProjectionZoomChanged:" target="-2" id="TpI-Ku-gS5"/>
                                 </connections>
@@ -97,7 +97,7 @@
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ig6-2Q-Mqf">
                                 <rect key="frame" x="241" y="38" width="29" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="150" id="U8N-SK-j4u">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="500" id="U8N-SK-j4u">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -124,7 +124,7 @@
                         <subviews>
                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9pC-Tz-vmF">
                                 <rect key="frame" x="49" y="63" width="32" height="32"/>
-                                <sliderCell key="cell" alignment="left" maxValue="360" tickMarkPosition="left" numberOfTickMarks="36" allowsTickMarkValuesOnly="YES" sliderType="circular" id="42w-Or-fhH"/>
+                                <sliderCell key="cell" alignment="left" maxValue="360" tickMarkPosition="above" numberOfTickMarks="36" allowsTickMarkValuesOnly="YES" sliderType="circular" id="42w-Or-fhH"/>
                                 <connections>
                                     <action selector="tiltChanged:" target="-2" id="fx1-TX-2oI"/>
                                 </connections>
