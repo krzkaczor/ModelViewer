@@ -19,7 +19,7 @@
 @property int width, height;
 
 @property Vector* position;
-@property Vector* up;
+@property double tilt;
 @property Vector* eyePosition;
 
 

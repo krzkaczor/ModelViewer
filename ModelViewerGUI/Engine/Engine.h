@@ -3,6 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OrthographicCamera.h"
 @protocol SceneModelLoader;
 @class Scene;
 @class LightSource;
@@ -15,6 +16,7 @@
 
 @class NSImageView;
 @class InteractionImage;
+@class MasterViewController;
 
 @interface Engine : NSObject
 @property (readonly) id<SceneModelLoader> sceneModelLoader;
@@ -23,14 +25,16 @@
 @property (readonly) SceneRenderer* renderer;
 
 @property(nonatomic, strong) Camera *mainCamera;
-@property(nonatomic, strong) Camera *frontCamera;
-@property(nonatomic, strong) Camera *topCamera;
-@property(nonatomic, strong) Camera *sideCamera;
+@property(nonatomic, strong) OrthographicCamera *frontCamera;
+@property(nonatomic, strong) OrthographicCamera *topCamera;
+@property(nonatomic, strong) OrthographicCamera *sideCamera;
 
 @property(nonatomic, weak) NSImageView*  mainImage;
 @property(nonatomic, weak) InteractionImage*  frontImage;
 @property(nonatomic, weak) InteractionImage*  topImage;
 @property(nonatomic, weak) InteractionImage*  sideImage;
+
+@property(nonatomic, strong) MasterViewController *vc;
 
 - (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader;
 + (instancetype)engineWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader;
@@ -42,5 +46,7 @@
 
 - (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(Camera *)camera;
 
-- (NSArray *)generateFrames;
+- (void)changeOrthographicCamerasZoomTo:(int)value;
+
+- (void)mainCameraTiltChangedTo:(double)angle;
 @end

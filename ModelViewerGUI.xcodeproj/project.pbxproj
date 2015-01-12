@@ -39,6 +39,7 @@
 		C81A5A97E7A490E7FFADBD03 /* LightSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A54F0F54715763D4497FB /* LightSource.m */; };
 		C81A5C63B9993C122BC1619C /* JsonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5185B309588F0E6A0D2B /* JsonLoader.m */; };
 		C81A5CC232EB06BBEB0C5BC3 /* SampleObject.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A5EF3F604ADED13356383 /* SampleObject.json */; };
+		C81A5D737C3E71CE06CC10D5 /* OrthographicCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A5BF5B05DDEFDAEC215FC /* OrthographicCamera.m */; };
 		C81A5DB5BDAAC7D18262205E /* 2DTriangle.json in Resources */ = {isa = PBXBuildFile; fileRef = C81A543B1329C57F577F709E /* 2DTriangle.json */; };
 		C81A5DC00F9A8D2CF3FF5424 /* YCMatrix+Affine3D.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A530DDED24169B36F581A /* YCMatrix+Affine3D.m */; };
 		C81A5E713B8BB38F5CEA2465 /* SceneRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = C81A54FA1C734C454B6AFAB4 /* SceneRenderer.m */; };
@@ -92,6 +93,7 @@
 		C81A56A1CBD03C7871DB6FBC /* PerspectiveProjection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveProjection.h; sourceTree = "<group>"; };
 		C81A56A502A68ACE0E379EB8 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		C81A577B80EDCAF20E547217 /* Triangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Triangle.m; sourceTree = "<group>"; };
+		C81A5791A3935D7E0E3B2794 /* OrthographicCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrthographicCamera.h; sourceTree = "<group>"; };
 		C81A585DFF32648E7678BA0E /* Transformable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transformable.h; sourceTree = "<group>"; };
 		C81A587279336C0CC14B6B86 /* LightSource1.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = LightSource1.json; sourceTree = "<group>"; };
 		C81A590220C5A7EE8670D536 /* YCMatrix+Affine3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YCMatrix+Affine3D.h"; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		C81A5B02647E6314E6AAD432 /* DebugService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugService.h; sourceTree = "<group>"; };
 		C81A5B9792BCD4BC991F3B58 /* CUBES.BRS */ = {isa = PBXFileReference; lastKnownFileType = file.BRS; path = CUBES.BRS; sourceTree = "<group>"; };
 		C81A5BAEE1DD5201809A1D02 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
+		C81A5BF5B05DDEFDAEC215FC /* OrthographicCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrthographicCamera.m; sourceTree = "<group>"; };
 		C81A5C0FD042CB9C86129008 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		C81A5C7D5B0309F9850B402D /* SceneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneModel.m; sourceTree = "<group>"; };
 		C81A5CD1DAE71559789749FF /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 				C81A5F6FC645BC666C172934 /* PerspectiveProjection.m */,
 				C81A5A440DF137EC4A511709 /* OrthographicProjection.h */,
 				C81A5DE989876400657E1007 /* OrthographicProjection.m */,
+				C81A5BF5B05DDEFDAEC215FC /* OrthographicCamera.m */,
+				C81A5791A3935D7E0E3B2794 /* OrthographicCamera.h */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -525,6 +530,7 @@
 				C81A531FB13DF7144897A7D2 /* BitmapRenderer.m in Sources */,
 				C81A5E713B8BB38F5CEA2465 /* SceneRenderer.m in Sources */,
 				C81A51CE4AF88B733CDB87D1 /* BrsSceneModelLoader.m in Sources */,
+				C81A5D737C3E71CE06CC10D5 /* OrthographicCamera.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

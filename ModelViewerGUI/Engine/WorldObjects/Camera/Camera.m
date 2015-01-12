@@ -28,7 +28,7 @@
         YCMatrix *scale = [YCMatrix scaleX:width y:height z:1];
         self.viewportMatrix = [YCMatrix assembleFromRightToLeft:@[offset, scale]];
 
-        self.up = [Vector vectorWithX:0 y:1 z:0];
+        self.tilt = 0;
     }
 
     return self;
@@ -47,7 +47,7 @@
     double angle2 = M_PI/2 - atan2(et2.z, et2.y);
     YCMatrix* rot2  = [YCMatrix rotateXWithAngle:angle2];
     currentTransform = [YCMatrix assembleFromRightToLeft: @[rot2, rot1, translation]];
-    double angle3 = M_PI / 2 - atan2(self.up.y, self.up.x);
+    double angle3 = self.tilt;
     YCMatrix* rot3 = [YCMatrix rotateZWithAngle:angle3];
     currentTransform = [YCMatrix assembleFromRightToLeft: @[rot3, rot2, rot1, translation]];
 

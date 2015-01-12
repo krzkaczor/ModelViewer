@@ -26,9 +26,11 @@
 #import "OrthographicProjection.h"
 #import "YCMatrix+Advanced.h"
 #import "InteractionImage.h"
+#import "OrthographicCamera.h"
+#import "MasterViewController.h"
 
 @implementation Engine {
-
+    CGSize screenSize;
 }
 
 - (void)setTopImage:(InteractionImage *)topImage {
@@ -46,12 +48,13 @@
 - (void)setFrontImage:(InteractionImage *)frontImage {
     _frontImage = frontImage;
     frontImage.engine = self;
-    frontImage.assignedCamera = self.sideCamera;
+    frontImage.assignedCamera = self.frontCamera;
 }
 
 - (instancetype)initWithSceneModelLoader:(id <SceneModelLoader>)sceneModelLoader lightSourceLoader:(id <LightSourceLoader>)lightSourceLoader {
     self = [super init];
     if (self) {
+        screenSize = CGSizeMake(400, 400);
         _sceneModelLoader = sceneModelLoader;
         _lightSourceLoader = lightSourceLoader;
         _scene = [Scene emptyScene];
@@ -68,18 +71,10 @@
     return [[self alloc] initWithSceneModelLoader:sceneModelLoader lightSourceLoader:lightSourceLoader];
 }
 
-
 - (void)setupCameras {
-    double size = 100;
-    id<Projection> projection = [OrthographicProjection projectionWithRight:size left:-size top:size bottom:-size far:1 near:10];
-
-    self.frontCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
-
-    self.topCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
-    self.topCamera.worldToViewMatrix = [YCMatrix rotateXWithAngle:M_PI / 2];
-
-    self.sideCamera = [Camera cameraWithHeight:400 width:400 projection:projection];
-    self.sideCamera.worldToViewMatrix = [YCMatrix rotateYWithAngle:M_PI / 2];
+    self.frontCamera = [OrthographicCamera initWithSize:screenSize cameraWithLookAt:front];
+    self.topCamera = [OrthographicCamera initWithSize:screenSize cameraWithLookAt:side];;
+    self.sideCamera = [OrthographicCamera initWithSize:screenSize cameraWithLookAt:top];
 
     id<Projection> perspectiveProjection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
     self.mainCamera = [Camera cameraWithHeight:400 width:400 projection:perspectiveProjection];
@@ -88,19 +83,6 @@
     //camera.up = [Vector vectorWithX:0.9 y:1 z:0];
     [self.mainCamera updateMatrix];
 };
-
-
-- (NSArray*)generateFrames {
-
-    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:self.mainCamera.position color:[Color colorWithR:0 g:1 b:0]]];
-
-    NSImage* mainCameraView = [self.renderer renderScene:self.scene usingCamera:self.mainCamera putAdditionalInfo:NO];
-    NSImage* frontCameraView = [self.renderer renderScene:self.scene usingCamera:self.frontCamera putAdditionalInfo:YES] ;
-    NSImage* topCameraView = [self.renderer renderScene:self.scene usingCamera:self.topCamera putAdditionalInfo:YES];
-    NSImage* sideCameraView = [self.renderer renderScene:self.scene usingCamera:self.sideCamera putAdditionalInfo:YES];
-
-    return @[mainCameraView, topCameraView, frontCameraView, sideCameraView];
-}
 
 - (void)loadModel:(NSString *)path {
     SceneModel *sceneModel = [self.sceneModelLoader loadModelFromFile:path];
@@ -112,6 +94,8 @@
     [self.scene addSceneModel:sceneModel];
     [self.scene putLight];
     [self updateScreen];
+
+    [self.vc updateModelInfo:(int) sceneModel.model.vertices.count and:(int) sceneModel.model.triangles.count];
 }
 
 -(void)loadLightConfig:(NSString*)path {
@@ -140,28 +124,45 @@
     [DebugService.instance.constantLines addObjectsFromArray: [@[versorX, versorY, versorZ] mutableCopy]];
 }
 
-- (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(Camera*)camera {
-    YCMatrix *modelViewProjectionMatrix = [YCMatrix assembleFromRightToLeft:@[
-            camera.viewportMatrix,
-            camera.projection.projectionMatrix,
-            camera.worldToViewMatrix
-    ]];
+- (void)mouseDown:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera*)camera {
+    self.scene.lightSource.position = [camera transform:self.scene.lightSource.position fromClickedVector:clickedPoint];
 
-    YCMatrix* invertedMatrix = [modelViewProjectionMatrix pseudoInverse];
+    [self.scene putLight];
+    [self updateScreen];
+}
 
-    Vector* transformedVector = [clickedPoint applyTransformation:invertedMatrix];
-    self.scene.lightSource.position = [Vector vectorWithX:self.scene.lightSource.position.x y:transformedVector.y z:transformedVector.z];
-    [DebugService.instance.dynamicHelperPoints addObject:[DoublePoint pointWithPos:self.scene.lightSource.position color:[Color colorWithR:1 g:1 b:1]]];
+- (void)mouseDragged:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera*)camera {
+
 
     [self.scene putLight];
     [self updateScreen];
 }
 
 - (void)updateScreen {
-    NSArray* frames = self.generateFrames;
-    self.mainImage.image = frames[0];
-    self.topImage.image = frames[1];
-    self.frontImage.image = frames[2];
-    self.sideImage.image = frames[3];
+    [self updateMainCameraScreen];
+    [self updateHelperCameraScreens];
+}
+
+-(void)updateMainCameraScreen {
+    self.mainImage.image = [self.renderer renderScene:self.scene usingCamera:self.mainCamera putAdditionalInfo:NO];
+}
+
+-(void)updateHelperCameraScreens {
+    self.frontImage.image = [self.renderer renderScene:self.scene usingCamera:self.frontCamera putAdditionalInfo:YES] ;
+    self.topImage.image = [self.renderer renderScene:self.scene usingCamera:self.topCamera putAdditionalInfo:YES];
+    self.sideImage.image = [self.renderer renderScene:self.scene usingCamera:self.sideCamera putAdditionalInfo:YES];
+}
+
+- (void)changeOrthographicCamerasZoomTo:(int)zoom {
+    self.frontCamera.projection = [OrthographicProjection projectionWithSize:zoom];
+    self.topCamera.projection = [OrthographicProjection projectionWithSize:zoom];
+    self.sideCamera.projection = [OrthographicProjection projectionWithSize:zoom];
+    [self updateHelperCameraScreens];
+}
+
+- (void)mainCameraTiltChangedTo:(double)angle {
+    self.mainCamera.tilt = angle;
+    [self.mainCamera updateMatrix];
+    [self updateMainCameraScreen];
 }
 @end

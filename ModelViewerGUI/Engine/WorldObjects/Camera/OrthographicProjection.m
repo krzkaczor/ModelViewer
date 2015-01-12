@@ -2,6 +2,7 @@
 // Created by Krzysztof Kaczor on 1/2/15.
 //
 
+#import <objc/objc-api.h>
 #import "OrthographicProjection.h"
 #import "YCMatrix.h"
 
@@ -37,6 +38,10 @@
 
 + (instancetype)projectionWithRight:(double)r left:(double)l top:(double)t bottom:(double)b far:(double)f near:(double)n {
     return [[self alloc] initWithRight:r left:l top:t bottom:b far:f near:n];
+}
+
++ (instancetype)projectionWithSize:(double)size {
+    return [self projectionWithRight:size left:-size top:size bottom:-size far:1 near:10];
 }
 
 

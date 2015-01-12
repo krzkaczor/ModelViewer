@@ -10,8 +10,14 @@
                 <outlet property="bottomLeftImage" destination="1VB-OZ-hwH" id="wj8-o0-upN"/>
                 <outlet property="bottomRightImage" destination="7QI-pl-GbR" id="D9n-WJ-SKM"/>
                 <outlet property="load" destination="TG4-3p-Gnv" id="xYD-h0-nfK"/>
+                <outlet property="orthoProjectionZoomLabel" destination="qUe-SR-y22" id="531-dq-KQB"/>
+                <outlet property="orthoProjectionZoomSlider" destination="3Ic-Za-08i" id="ltP-kA-6Cx"/>
+                <outlet property="tiltLabel" destination="Nwk-Bs-yMl" id="GeY-hk-AxZ"/>
+                <outlet property="tiltSlider" destination="9pC-Tz-vmF" id="1hW-br-R7N"/>
                 <outlet property="topLeftImage" destination="gsg-yF-lWR" id="gmf-hZ-gFA"/>
                 <outlet property="topRightImage" destination="mni-J5-V7w" id="3i4-w3-gzy"/>
+                <outlet property="trianglesNoLabel" destination="27d-GO-MKY" id="lDV-Cq-JGx"/>
+                <outlet property="vertcesNoLabel" destination="yhC-u1-2YJ" id="ym9-Wo-zxp"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -38,13 +44,13 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="9N1-gW-Bzj"/>
                 </imageView>
                 <box autoresizesSubviews="NO" horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="wGm-kX-fbs">
-                    <rect key="frame" x="808" y="0.0" width="5" height="910"/>
+                    <rect key="frame" x="810" y="0.0" width="5" height="910"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-oe-5uG">
-                    <rect key="frame" x="809" y="862" width="144" height="32"/>
+                    <rect key="frame" x="824" y="862" width="144" height="32"/>
                     <buttonCell key="cell" type="push" title="Load new model" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TG4-3p-Gnv">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -60,6 +66,122 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <box autoresizesSubviews="NO" fixedFrame="YES" title="Orthographic projections" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="wZ9-Po-XiI">
+                    <rect key="frame" x="818" y="740" width="280" height="109"/>
+                    <view key="contentView">
+                        <rect key="frame" x="1" y="1" width="278" height="93"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ic-Za-08i">
+                                <rect key="frame" x="42" y="31" width="196" height="25"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="10" maxValue="150" doubleValue="103.33333333333333" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="MIb-k1-JzS"/>
+                                <connections>
+                                    <action selector="orthoProjectionZoomChanged:" target="-2" id="TpI-Ku-gS5"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kns-yg-Mnm">
+                                <rect key="frame" x="16" y="69" width="40" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Zoom" id="SHo-aQ-jYY">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8V-DY-2Gg">
+                                <rect key="frame" x="16" y="40" width="21" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="10" id="XzU-jY-0G9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ig6-2Q-Mqf">
+                                <rect key="frame" x="241" y="38" width="29" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="150" id="U8N-SK-j4u">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUe-SR-y22">
+                                <rect key="frame" x="241" y="69" width="50" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100" id="BXX-Qe-s2k">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </box>
+                <box autoresizesSubviews="NO" fixedFrame="YES" title="Main camera" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="Edf-cQ-lZL">
+                    <rect key="frame" x="818" y="620" width="280" height="116"/>
+                    <view key="contentView">
+                        <rect key="frame" x="1" y="1" width="278" height="100"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9pC-Tz-vmF">
+                                <rect key="frame" x="49" y="63" width="32" height="32"/>
+                                <sliderCell key="cell" alignment="left" maxValue="360" tickMarkPosition="left" numberOfTickMarks="36" allowsTickMarkValuesOnly="YES" sliderType="circular" id="42w-Or-fhH"/>
+                                <connections>
+                                    <action selector="tiltChanged:" target="-2" id="fx1-TX-2oI"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bVL-dF-CeH">
+                                <rect key="frame" x="9" y="73" width="25" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tilt" id="9De-wl-9iA">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nwk-Bs-yMl">
+                                <rect key="frame" x="91" y="71" width="38" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0°" id="YtN-Xc-AM3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DV7-UU-QHQ">
+                    <rect key="frame" x="819" y="124" width="54" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Vertices" id="Dbd-ZR-oQa">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yhC-u1-2YJ">
+                    <rect key="frame" x="895" y="124" width="43" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="yJK-db-0fj">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8KZ-Uy-Fj3">
+                    <rect key="frame" x="819" y="103" width="61" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Triangles" id="ehr-1k-xwh">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="27d-GO-MKY">
+                    <rect key="frame" x="895" y="103" width="43" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="gUL-do-UHv">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <point key="canvasLocation" x="1017" y="251"/>
         </customView>

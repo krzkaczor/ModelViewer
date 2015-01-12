@@ -13,4 +13,6 @@
 
 + (instancetype)projectionWithRight:(double)r left:(double)l top:(double)t bottom:(double)b far:(double)f near:(double)n;
 
++ (instancetype)projectionWithSize:(double)size;
+
 @end

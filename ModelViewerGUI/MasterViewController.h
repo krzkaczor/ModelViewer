@@ -19,8 +19,17 @@
 @property (weak) IBOutlet InteractionImage *bottomRightImage;
 - (IBAction)loadNewModelClicked:(NSButton *)sender;
 
+- (IBAction)orthoProjectionZoomChanged:(NSSlider*)sender;
+@property (weak) IBOutlet NSTextField *orthoProjectionZoomLabel;
 
+- (IBAction)tiltChanged:(NSSlider *)sender;
+
+- (void)updateModelInfo:(int)verticesNo and:(int)trianglesNo;
+
+@property (weak) IBOutlet NSTextField *tiltLabel;
+
+@property (weak) IBOutlet NSTextField *vertcesNoLabel;
+@property (weak) IBOutlet NSTextField *trianglesNoLabel;
 
 @property (strong) Engine* engine;
-
 @end

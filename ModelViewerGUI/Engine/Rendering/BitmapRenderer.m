@@ -23,9 +23,13 @@ void clear_buffers();
 void free_buffers();
 void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) ;
 
+void check_triangle(Triangle *triangle);
+
 UInt8* buf;
 double* bufZ;
 int width, height;
+
+int triangles_rendered = 0;
 
 @implementation BitmapRenderer {
     CGSize size;
@@ -100,6 +104,8 @@ int width, height;
 }
 
 - (NSImage*)finishRendering {
+    printf("Triangles rendered: %i\n", triangles_rendered);
+
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     CFDataRef rgbData = CFDataCreate(NULL, buf, size.width * size.height * 3);
     CGDataProviderRef provider = CGDataProviderCreateWithCFData(rgbData);
@@ -116,6 +122,10 @@ int width, height;
 }
 @end
 
+//void check_triangle(Triangle *triangle) {
+//    triangle->_v1->_position->_x
+//}
+
 void free_buffers() {
     free (buf);
     free (bufZ);
@@ -131,6 +141,7 @@ void setup_buffers(int w, int h) {
 }
 
 void clear_buffers() {
+    triangles_rendered = 0;
     memset(buf, 75, sizeof (UInt8) * width*height*3);
 
     for (int i = 0;i < width*height;i++) {
@@ -156,7 +167,24 @@ void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
     buf[addr + 2] = b;
 }
 
+
+int will_be_drawn (TPoint* p) {
+    int x = (int)round(p->x);
+    int y = (int)round(p->y);
+    double z = p->z;
+
+    int bufZAddr = y * width + x;
+    return bufZ[bufZAddr] < z;
+
+}
+
 void render_triangle(TPoint A, TPoint B, TPoint C) {
+//    if (!will_be_drawn(&A) && !will_be_drawn(&B) && !will_be_drawn(&C)) {
+//        return;
+//    }
+
+    triangles_rendered++;
+
     double deltaAB = 0;
     if (B.y - A.y != 0) {
         deltaAB = (B.x - A.x) / (B.y - A.y);

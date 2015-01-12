@@ -42,7 +42,8 @@
     self.engine.topImage = self.bottomLeftImage;
     self.engine.frontImage = self.topRightImage;
     self.engine.sideImage = self.bottomRightImage;
-
+    self.engine.vc = self;
+    
     [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/TEA.BRS"];
     [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
 }
@@ -59,6 +60,26 @@
             [self.engine loadModel:url.path];
         }
     }
-    
+}
+
+- (IBAction)orthoProjectionZoomChanged:(NSSlider*)sender {
+    int zoomValue = (int) sender.integerValue;
+    self.orthoProjectionZoomLabel.stringValue = [NSString stringWithFormat:@"%i", zoomValue];
+    NSLog(@"Ortho projection zoom changed to: %i", zoomValue);
+    [self.engine changeOrthographicCamerasZoomTo: zoomValue];
+}
+
+- (IBAction)tiltChanged:(NSSlider *)sender {
+    int tiltValueInDegrees = (int) sender.integerValue;
+    self.tiltLabel.stringValue = [NSString stringWithFormat:@"%i", tiltValueInDegrees];
+    NSLog(@"Tilt value changed to: %i", tiltValueInDegrees);
+
+    double tiltValueInRadians = tiltValueInDegrees * (180 / M_PI);
+    [self.engine mainCameraTiltChangedTo:tiltValueInRadians];
+}
+
+- (void)updateModelInfo:(int)verticesNo and:(int)trianglesNo {
+    self.vertcesNoLabel.stringValue = [NSString stringWithFormat:@"%i", verticesNo];
+    self.trianglesNoLabel.stringValue = [NSString stringWithFormat:@"%i", trianglesNo];
 }
 @end
