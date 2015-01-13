@@ -172,11 +172,7 @@ void clear_buffers() {
     }
 }
 
-void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
-
-    int xI = (int)round(x);
-    int yI = (int)round(y);
-
+void put_int_pixel(int xI, int yI, double z, UInt8 r, UInt8 g,UInt8 b ) {
     if (xI >= width || yI >= height || xI < 0 || yI < 0)
         return;
 
@@ -189,6 +185,11 @@ void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
     buf[addr] = r;
     buf[addr + 1] = g;
     buf[addr + 2] = b;
+}
+
+void put_pixel(double x, double y, double z, UInt8 r, UInt8 g,UInt8 b ) {
+    put_int_pixel((int) floor(x), (int) floor(y), z, r, g, b);
+    put_int_pixel((int) ceil(x), (int) ceil(y), z, r, g, b);
 }
 
 
@@ -206,7 +207,6 @@ void render_triangle(TPoint A, TPoint B, TPoint C) {
 //    if (!will_be_drawn(&A) && !will_be_drawn(&B) && !will_be_drawn(&C)) {
 //        return;
 //    }
-
     triangles_rendered++;
 
     double deltaAB = 0;
@@ -357,7 +357,7 @@ void horizontal_line(double x, double x2, double y, double zl, double zr, double
     double dg = (g2 - g1)/fabs(x2 - x);
     double db = (b2 - b1)/fabs(x2 - x);
     double dz = (zr - zl)/fabs(x2 - x);
-    for (;x < x2;x++) {
+    for (;x <= x2;x++) {
         put_pixel(x, y,zl, r1, g1, b1);
         r1 += dr;
         g1 += dg;

@@ -64,22 +64,22 @@
     YCMatrix* a = [[_v3.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
     YCMatrix* b = [[_v1.position toMatrix] matrixBySubtracting:[_v2.position toMatrix]];
 
-    self.normal = [[a vectorByCrossProduct:b] normalizeVector];
-    //YCMatrix* negatedNormal = [normal matrixByNegating];
+    YCMatrix* normal = [[a vectorByCrossProduct:b] normalizeVector];
+    YCMatrix* negatedNormal = [normal matrixByNegating];
 
-    //check which one leads outside of model
-    //shitty way but it is done only once after loading model
-//    YCMatrix* vector1 = self.v1.position.toMatrix;
-//    YCMatrix* vectorWithNormal = [vector1 matrixByAdding:normal];
-//    YCMatrix* vectorWithNegatedNormal = [vector1 matrixByAdding:negatedNormal];
-//
-//    double len1 = [[vectorWithNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
-//    double len2 = [[vectorWithNegatedNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
-//
-//    if (len1 > len2)
-//        self.normal = normal;
-//    else
-//        self.normal = negatedNormal;
+//    check which one leads outside of model
+//    shitty way but it is done only once after loading model
+    YCMatrix* vector1 = self.v1.position.toMatrix;
+    YCMatrix* vectorWithNormal = [vector1 matrixByAdding:normal];
+    YCMatrix* vectorWithNegatedNormal = [vector1 matrixByAdding:negatedNormal];
+
+    double len1 = [[vectorWithNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
+    double len2 = [[vectorWithNegatedNormal matrixBySubtracting:[pointInside toMatrix]] vectorLength];
+
+    if (len1 > len2)
+        self.normal = normal;
+    else
+        self.normal = negatedNormal;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
