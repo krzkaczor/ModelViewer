@@ -48,16 +48,21 @@
     //vector to light
     YCMatrix *vectorToLightSource = [[self.position toMatrix] matrixBySubtracting:point];
     YCMatrix *vectorToLightSourceNormalized = [vectorToLightSource normalizeVector];
+    vertex.vectorToLightSource = vectorToLightSource;
+
+    //specular
+    YCMatrix* vectorToCamera = [[[camera.position toMatrix] matrixBySubtracting:point] normalizeVector];
+    YCMatrix* mirroredVectorToCamera = [[[vertex.normal matrixByMultiplyingWithScalar:2 * fmax([vertex.normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+    vertex.mirroredVectorToCamera = mirroredVectorToCamera;
+
     double r = [vectorToLightSource vectorLength];
     double fattr = 1/(self.c2*r*r + self.c1 * r + self.c0);
 
     //diffuse
     double dot = fmax([vertex.normal dotWith:vectorToLightSourceNormalized], 0);
-    //specular
-    YCMatrix* vectorToCamera = [[[camera.position toMatrix] matrixBySubtracting:point] normalizeVector];
-    YCMatrix* mirroredVectorToCamera = [[[vertex.normal matrixByMultiplyingWithScalar:2 * fmax([vertex.normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+
     double v = fmax([vectorToLightSourceNormalized dotWith:mirroredVectorToCamera], 0);
-    double s = fmax(pow(v, 100), 0);
+    double s = fmax(pow(v, 1000), 0);
 
     vertex.luminescence.r += 1 * fattr * self.color.r * (dot + s);
     vertex.luminescence.g += 1 * fattr * self.color.g * (dot + s);

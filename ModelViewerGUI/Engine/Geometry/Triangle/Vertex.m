@@ -3,6 +3,7 @@
 //
 
 #import <MacTypes.h>
+#import <YCMatrix/YCMatrix.h>
 #import "Vertex.h"
 #import "Vector.h"
 #import "Color.h"
@@ -33,6 +34,9 @@
         copy.color = [self.color copy];
         copy.normal = [self.normal copy];
         copy.luminescence = [self.luminescence copy];
+        copy.normal = [self.normal copy];
+        copy.vectorToLightSource = [self.vectorToLightSource copy];
+        copy.mirroredVectorToCamera = [self.mirroredVectorToCamera copy];
     }
 
     return copy;
@@ -40,7 +44,12 @@
 
 
 - (id)applyTransformation:(YCMatrix *)transformation {
-    return [Vertex vertexWithPosition:[_position applyTransformation:transformation] color:_color];
+
+    Vertex* transformed = [Vertex vertexWithPosition:[_position applyTransformation:transformation] color:_color];
+    transformed.normal = self.normal;
+    transformed.vectorToLightSource = self.vectorToLightSource;
+    transformed.mirroredVectorToCamera = self.mirroredVectorToCamera;
+    return transformed;
 }
 
 + (instancetype)vertexWithPosition:(Vector *)position color:(Color *)color {

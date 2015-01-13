@@ -8,15 +8,20 @@
 @class Vector;
 @class Color;
 @class Triangle;
+@class YCMatrix;
 
 @interface Vertex : NSObject <NSCopying, Transformable>
 
 @property Vector* position;
-@property Color* color;
-@property Color* luminescence;
+@property (strong) Color* color;
+@property (strong) Color* luminescence;
 @property YCMatrix* normal;
 @property(nonatomic) NSMutableArray *triangles;
 
+
+@property(nonatomic, strong) YCMatrix *vectorToLightSource;
+
+@property(nonatomic, strong) YCMatrix *mirroredVectorToCamera;
 
 - (id)copyWithZone:(NSZone *)zone;
 - (instancetype)initWithPosition:(Vector *)position color:(Color *)color;
