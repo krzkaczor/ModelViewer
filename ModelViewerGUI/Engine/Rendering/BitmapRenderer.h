@@ -15,9 +15,13 @@
 
 - (void)startSceneRendering;
 
-- (void)renderTriangle:(Triangle *)triangle;
+- (void)renderTriangle:(Triangle *)triangle forCamera:(Camera*)camera andScene:(Scene*)scene andTransformation:(YCMatrix*)modelViewProjectionMatrix;
 
 - (void)renderPoint:(DoublePoint *)v;
 
 - (NSImage *)finishRendering;
+
+- (Vector *)calculateBarycentricFor;
+
+- (id)calculateBarycentricV1;
 @end

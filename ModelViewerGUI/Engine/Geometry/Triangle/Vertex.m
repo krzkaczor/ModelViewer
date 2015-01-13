@@ -44,7 +44,6 @@
 
 
 - (id)applyTransformation:(YCMatrix *)transformation {
-
     Vertex* transformed = [Vertex vertexWithPosition:[_position applyTransformation:transformation] color:_color];
     transformed.normal = self.normal;
     transformed.vectorToLightSource = self.vectorToLightSource;

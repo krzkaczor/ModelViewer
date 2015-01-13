@@ -8,9 +8,17 @@
 #import "Vertex.h"
 #import "Vector.h"
 #import "Color.h"
+#import "YCMatrix+Advanced.h"
+#import "YCMatrix+Affine3D.h"
+#import "Camera.h"
+#import "Scene.h"
+#import "LightSource.h"
 
 
 #include <sys/time.h>
+#import <MacTypes.h>
+#import <objc/objc-api.h>
+#import <YCMatrix/YCMatrix.h>
 
 double get_time()
 {
@@ -45,6 +53,13 @@ int triangles_rendered = 0;
 
 @implementation BitmapRenderer {
     CGSize size;
+    Vertex* v1;
+    Vertex* v2;
+    Vertex* v3;
+    Triangle *currentTriangle;
+    Camera *camera;
+    Scene *scene;
+    YCMatrix *transformation;
 }
 
 - (instancetype)initWithScreenSize:(CGSize)aSize {
@@ -97,10 +112,20 @@ int triangles_rendered = 0;
     if((A.y < 0 && B.y < 0 && C.y < 0) || (A.y > 400 && B.y > 400 && C.y > 400))
         return;
 
+
+    currentTriangle = triangle;
+
+    v1 = triangle.v1;
+    v2 = triangle.v2;
+    v3 = triangle.v3;
     [self renderTriangleWithV1:triangle.v1 v2:triangle.v2 v3:triangle.v3];
 }
 
-- (void)renderTriangle:(Triangle*)t {
+- (void)renderTriangle:(Triangle*)t forCamera:(Camera*)aCamera andScene:(Scene*)aScene andTransformation:(YCMatrix*)modelViewProjectionMatrix {
+    camera = aCamera;
+    scene = aScene;
+    transformation = [modelViewProjectionMatrix pseudoInverse];
+
     NSArray* triangles = [t split];
 
     [self renderSimpleTriangle:triangles[0]];
@@ -159,7 +184,6 @@ int triangles_rendered = 0;
     UInt8 Cr = (UInt8) (C.color.r * 255);
     UInt8 Cg = (UInt8) (C.color.g * 255);
     UInt8 Cb = (UInt8) (C.color.b * 255);
-
 
     double deltaAB = 0;
     if (B.position.y - A.position.y != 0) {
@@ -309,14 +333,48 @@ int triangles_rendered = 0;
     double dg = (g2 - g1)/fabs(x2 - x);
     double db = (b2 - b1)/fabs(x2 - x);
     double dz = (zr - zl)/fabs(x2 - x);
+
     for (;x <= x2;x++) {
-        put_pixel(x, y,zl, r1, g1, b1);
+        [self lightPixel:x and:y and:zl and:r1 and:g1 and:b1];
         r1 += dr;
         g1 += dg;
         b1 += db;
         zl += dz;
     }
-};
+}
+
+- (void)lightPixel:(double)x and:(double)y and:(double)z and:(double)r and:(double)g and:(double)b {
+    YCMatrix *point = [[[Vector vectorWithX:x y:y z:z] applyTransformation:transformation] toMatrix];
+
+    if (scene.lightSource.position == nil)
+        return;
+
+    YCMatrix *vectorToLightSource = [[scene.lightSource.position toMatrix] matrixBySubtracting:point];
+    YCMatrix *vectorToLightSourceNormalized = [vectorToLightSource normalizeVector];
+    YCMatrix* normal = [currentTriangle getNormalVectorOnX:x y:y];
+
+    YCMatrix* vectorToCamera = [[[scene.mainCamera.position toMatrix] matrixBySubtracting:point] normalizeVector];
+    YCMatrix* mirroredVectorToCamera = [[[normal matrixByMultiplyingWithScalar:2 * fmax([normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+
+
+    //double dist = [vectorToLightSource vectorLength];
+    double fattr = 1;//1/(self.c2*r*r + self.c1 * r + self.c0);
+
+    //diffuse
+
+    double dot = fmax([normal dotWith:vectorToLightSourceNormalized], 0);
+
+    double v = fmax([vectorToLightSourceNormalized dotWith:mirroredVectorToCamera], 0);
+    double s = fmax(pow(v, 1000), 0);
+
+    r *= fmin(1 * fattr * (dot + s), 1);
+    g *= fmin(1 * fattr * (dot + s), 1);
+    b *= fmin(1 * fattr * (dot + s), 1);
+
+    put_pixel(x, y, z, r, g, b);
+}
+
+
 
 @end
 

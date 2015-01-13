@@ -21,6 +21,12 @@
 
 @property(nonatomic, readonly) double z;
 
+@property(nonatomic) double lambda1;
+
+@property(nonatomic) double lambda2;
+
+@property(nonatomic) double lambda3;
+
 - (instancetype)initWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3;
 
 + (instancetype)triangleWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3;
@@ -30,6 +36,10 @@
 - (Triangle *)luminate;
 
 - (NSArray*)split;
+
+- (void)setupBarycentricCoordinateSystem;
+
+- (YCMatrix *)getNormalVectorOnX:(double)x y:(double)y;
 
 - (id)copyWithZone:(NSZone *)zone;
 @end

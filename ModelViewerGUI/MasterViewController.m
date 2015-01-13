@@ -39,14 +39,14 @@
     id<LightSourceLoader> jsonModelLoader = [[JsonLoader alloc] init];
     id<SceneModelLoader> brsSceneLoader = [[BrsSceneModelLoader alloc] init];
     id<SceneModelLoader> objSceneLoader = [[ObjSceneModelLoader alloc] init];
-    self.engine = [[Engine alloc] initWithSceneModelLoader:objSceneLoader lightSourceLoader:jsonModelLoader];
+    self.engine = [[Engine alloc] initWithSceneModelLoader:brsSceneLoader lightSourceLoader:jsonModelLoader];
     self.engine.mainImage = self.topLeftImage;
     self.engine.topImage = self.bottomLeftImage;
     self.engine.frontImage = self.topRightImage;
     self.engine.sideImage = self.bottomRightImage;
     self.engine.vc = self;
     
-    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/teapot.obj"];
+    [self.engine loadModel:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/sphere.brs"];
     [self.engine loadLightConfig:@"/Users/krzysztofkaczor/Workspace/ModelViewerGUI/SampleModels/LightSource1.json"];
 }
 

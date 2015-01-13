@@ -3,6 +3,7 @@
 //
 
 #import <objc/objc-api.h>
+#import <YCMatrix/YCMatrix+Advanced.h>
 #import "Triangle.h"
 #import "Vector.h"
 #import "YCMatrix.h"
@@ -90,6 +91,9 @@
         copy.v2 = self.v2;
         copy.v3 = self.v3;
         copy.normal = self.normal;
+        copy.lambda1 = self.lambda1;
+        copy.lambda2 = self.lambda2;
+        copy.lambda3 = self.lambda3;
     }
 
     return copy;
@@ -128,9 +132,12 @@
     double g3 = self.v3.color.g;
     double b3 = self.v3.color.b;
 
+
+    [self setupBarycentricCoordinateSystem];
     if (y1 == y2 && y2 == y3) {
         return @[self];
     }
+
 
     double y4 = y2;
     double x4 =((y4 - y1) * ((x1 - x3) / (y1 - y3)) + x1);
@@ -144,14 +151,54 @@
     Vertex* v1 = self.v1;
     Vertex* v2 = self.v2;
     Vertex* v3 = self.v3;
+
     Vertex* v4 = [Vertex vertexWithPosition:[Vector vectorWithX:x4 y:y4 z:z4]color:[Color colorWithR:r4 g:g4 b:b4]];
+
+    v4.normal = [self getNormalVectorOnX:x4 y:y4];
+    v4.vectorToLightSource = v3.vectorToLightSource;
+    v4.mirroredVectorToCamera = v3.mirroredVectorToCamera;
+
     Triangle* t1 = [Triangle triangleWithP1:v1 p2:v2 p3:v4];
     Triangle* t2 = [Triangle triangleWithP1:v2 p2:v3 p3:v4];
 
     [t1 sortVertices];
     [t2 sortVertices];
 
+    [t1 setupBarycentricCoordinateSystem];
+    [t2 setupBarycentricCoordinateSystem];
+
     return @[t1, t2];
+}
+
+- (void)setupBarycentricCoordinateSystem{
+    double x1 = self.v1.position.x;
+    double x2 = self.v2.position.x;
+    double x3 = self.v3.position.x;
+
+    double y1 = self.v1.position.y;
+    double y2 = self.v2.position.y;
+    double y3 = self.v3.position.y;
+
+    double arr[]=  {
+            x1 - x3, x2 - x3,
+            y1 - y3, y2 - y3
+    };
+    double det = [[YCMatrix matrixFromArray:arr Rows:2 Columns:2] determinant];
+    self.lambda1 = ((y2-y3)*(x1-x3) + (x3-x2)*(y1-y3))/det;
+    self.lambda2 = ((y3-y1)*(x1-x3) + (x1-x3)*(y1-y3))/det;
+    self.lambda3 = 1 - self.lambda1 - self.lambda2;
+}
+
+-(YCMatrix*)getNormalVectorOnX:(double)x y:(double)y {
+    if (self.lambda1 == 0 && self.lambda2 == 0 && self.lambda3 == 0) {
+
+    }
+    YCMatrix* na = [self.v1.normal matrixByMultiplyingWithScalar:self.lambda1];
+    YCMatrix* nb = [self.v2.normal matrixByMultiplyingWithScalar:self.lambda2];
+    YCMatrix* nc = [self.v3.normal matrixByMultiplyingWithScalar:self.lambda3];
+    YCMatrix* normal = [[na matrixByAdding:nb] matrixByAdding:nc];
+
+    return normal;
 }
 
 @end

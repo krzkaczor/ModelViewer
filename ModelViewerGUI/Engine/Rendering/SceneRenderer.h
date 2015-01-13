@@ -10,9 +10,8 @@
 @class Camera;
 @class BitmapRenderer;
 
-
 @interface SceneRenderer : NSObject
-@property(nonatomic, strong) <ScreenRenderer> renderer;
+@property(nonatomic, strong) BitmapRenderer* renderer;
 
 - (NSImage *)renderScene:(Scene *)scene usingCamera:(Camera *)camera putAdditionalInfo:(BOOL)additionalInfo;
 @end
