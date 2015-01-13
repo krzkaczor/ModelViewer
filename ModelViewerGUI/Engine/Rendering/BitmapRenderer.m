@@ -265,7 +265,7 @@ int triangles_rendered = 0;
     }
 
     for(double y = A.position.y; y <= C.position.y;y++) {
-        horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
+        [self horizontalLineWith:xl and:xr and:y and:zl and:zr and:rl and:rr and:gl and:gr and:bl and:br];
 
         if (y >= B.position.y){
             xr += deltaBC;
@@ -294,6 +294,29 @@ int triangles_rendered = 0;
 
     }
 }
+
+
+-(void) horizontalLineWith:(double)x and:(double)x2 and:(double) y and:(double)zl and:(double) zr and:(double)r1 and:(double)r2 and:(double)g1 and:(double)g2 and:(double)b1 and:(double)b2 {
+    if (x > x2){
+        double tmp = x;
+        x = x2;
+        x2 = tmp;
+    }
+    x = floor(x);
+    x2 = ceil(x2);
+
+    double dr = (r2 - r1)/fabs(x2 - x);
+    double dg = (g2 - g1)/fabs(x2 - x);
+    double db = (b2 - b1)/fabs(x2 - x);
+    double dz = (zr - zl)/fabs(x2 - x);
+    for (;x <= x2;x++) {
+        put_pixel(x, y,zl, r1, g1, b1);
+        r1 += dr;
+        g1 += dg;
+        b1 += db;
+        zl += dz;
+    }
+};
 
 @end
 
@@ -353,26 +376,3 @@ int will_be_drawn (TPoint* p) {
     return bufZ[bufZAddr] < z;
 
 }
-
-
-void horizontal_line(double x, double x2, double y, double zl, double zr, double r1, double r2, double g1, double g2, double b1, double b2) {
-    if (x > x2){
-        double tmp = x;
-        x = x2;
-        x2 = tmp;
-    }
-    x = floor(x);
-    x2 = ceil(x2);
-
-    double dr = (r2 - r1)/fabs(x2 - x);
-    double dg = (g2 - g1)/fabs(x2 - x);
-    double db = (b2 - b1)/fabs(x2 - x);
-    double dz = (zr - zl)/fabs(x2 - x);
-    for (;x <= x2;x++) {
-        put_pixel(x, y,zl, r1, g1, b1);
-        r1 += dr;
-        g1 += dg;
-        b1 += db;
-        zl += dz;
-    }
-};
