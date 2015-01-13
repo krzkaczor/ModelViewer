@@ -97,7 +97,7 @@ int triangles_rendered = 0;
     if((A.y < 0 && B.y < 0 && C.y < 0) || (A.y > 400 && B.y > 400 && C.y > 400))
         return;
 
-    render_triangle(A, B, C);
+    [self renderTriangleWithV1:triangle.v1 v2:triangle.v2 v3:triangle.v3];
 }
 
 - (void)renderTriangle:(Triangle*)t {
@@ -144,6 +144,157 @@ int triangles_rendered = 0;
 
     return image;
 }
+
+
+-(void) renderTriangleWithV1:(Vertex*) A v2:(Vertex*)B v3:(Vertex*)C {
+    triangles_rendered++;
+    UInt8 Ar = (UInt8) (A.color.r * 255);
+    UInt8 Ag = (UInt8) (A.color.g * 255);
+    UInt8 Ab = (UInt8) (A.color.b * 255);
+
+    UInt8 Br = (UInt8) (B.color.r * 255);
+    UInt8 Bg = (UInt8) (B.color.g * 255);
+    UInt8 Bb = (UInt8) (B.color.b * 255);
+
+    UInt8 Cr = (UInt8) (C.color.r * 255);
+    UInt8 Cg = (UInt8) (C.color.g * 255);
+    UInt8 Cb = (UInt8) (C.color.b * 255);
+
+
+    double deltaAB = 0;
+    if (B.position.y - A.position.y != 0) {
+        deltaAB = (B.position.x - A.position.x) / (B.position.y - A.position.y);
+    }
+    double deltaBC = 0;
+    if (C.position.y - B.position.y != 0) {
+        deltaBC = (C.position.x - B.position.x) / (C.position.y - B.position.y);
+    }
+    double deltaAC = 0;
+    if (C.position.y - A.position.y != 0) {
+        deltaAC = (C.position.x - A.position.x) / (C.position.y - A.position.y);
+    }
+
+    double deltaABz = 0;
+    if (B.position.y - A.position.y != 0 && B.position.z != A.position.z) {
+        deltaABz = (B.position.z - A.position.z) / (B.position.y - A.position.y);
+    }
+    double deltaBCz = 0;
+    if (C.position.y - B.position.y != 0 && C.position.z != B.position.z) {
+        deltaBCz = (C.position.z - B.position.z) / (C.position.y - B.position.y);
+    }
+    double deltaACz = 0;
+    if (C.position.y - A.position.y != 0 && C.position.z != A.position.z) {
+        deltaACz = (C.position.z - A.position.z) / (C.position.y - A.position.y);
+    }
+
+    double deltaBCr = 0;
+    if (C.position.y != B.position.y && Cr != Br) {
+        deltaBCr = (Cr - Br) / (C.position.y - B.position.y);
+    }
+    double deltaACr = 0;
+    if (C.position.y != A.position.y && Cr != Ar) {
+        deltaACr = (Cr - Ar) / (C.position.y - A.position.y);
+    }
+    double deltaABr = 0;
+    if (B.position.y != A.position.y && Br != Ar) {
+        deltaABr = (Br - Ar) / (B.position.y - A.position.y);
+    }
+
+    double deltaBCg = 0;
+    if (C.position.y != B.position.y && Cg != Bg) {
+        deltaBCg = (Cg - Bg) / (C.position.y - B.position.y);
+    }
+    double deltaACg = 0;
+    if (C.position.y != A.position.y && Cg != Ag) {
+        deltaACg = (Cg - Ag) / (C.position.y - A.position.y);
+    }
+    double deltaABg = 0;
+    if (B.position.y != A.position.y && Bg != Ag) {
+        deltaABg = (Bg - Ag) / (B.position.y - A.position.y);
+    }
+
+    double deltaBCb = 0;
+    if (C.position.y != B.position.y && Cb != Bb) {
+        deltaBCb = (Cb - Bb) / (C.position.y - B.position.y);
+    }
+    double deltaACb = 0;
+    if (C.position.y != A.position.y && Cb != Ab) {
+        deltaACb = (Cb - Ab) / (C.position.y - A.position.y);
+    }
+    double deltaABb = 0;
+    if (B.position.y != A.position.y && Bb != Ab) {
+        deltaABb = (Bb - Ab) / (B.position.y - A.position.y);
+    }
+
+    double xl, xr;
+    double zl, zr;
+    double rl, rr;
+    double gl, gr;
+    double bl, br;
+
+    xl = xr = A.position.x;
+    zl = zr = A.position.z;
+    rl = rr = Ar;
+    gl = gr = Ag;
+    bl = br = Ab;
+
+    if (A.position.y - B.position.y == 0) {
+        xr = B.position.x;
+        zr = B.position.z;
+        rr = Br;
+        gr = Bg;
+        br = Bb;
+    }
+
+    if (B.position.x < C.position.x && A.position.y != B.position.y) {
+        double tmp = deltaACr;
+        deltaACr = deltaABr;
+        deltaABr = tmp;
+
+        tmp = deltaACg;
+        deltaACg = deltaABg;
+        deltaABg = tmp;
+
+        tmp = deltaACb;
+        deltaACb = deltaABb;
+        deltaABb = tmp;
+
+        tmp = deltaACz;
+        deltaACz = deltaABz;
+        deltaABz = tmp;
+    }
+
+    for(double y = A.position.y; y <= C.position.y;y++) {
+        horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
+
+        if (y >= B.position.y){
+            xr += deltaBC;
+            xl += deltaAC;
+            zr += deltaBCz;
+            zl += deltaACz;
+            rr += deltaBCr;
+            rl += deltaACr;
+            gr += deltaBCg;
+            gl += deltaACg;
+            br += deltaBCb;
+            bl += deltaACb;
+
+        } else {
+            xr += deltaAB;
+            xl += deltaAC;
+            zr += deltaABz;
+            zl += deltaACz;
+            rr += deltaABr;
+            rl += deltaACr;
+            gr += deltaABg;
+            gl += deltaACg;
+            br += deltaABb;
+            bl += deltaACb;
+        }
+
+    }
+}
+
 @end
 
 //void check_triangle(Triangle *triangle) {
@@ -201,146 +352,6 @@ int will_be_drawn (TPoint* p) {
     int bufZAddr = y * width + x;
     return bufZ[bufZAddr] < z;
 
-}
-
-void render_triangle(TPoint A, TPoint B, TPoint C) {
-//    if (!will_be_drawn(&A) && !will_be_drawn(&B) && !will_be_drawn(&C)) {
-//        return;
-//    }
-    triangles_rendered++;
-
-    double deltaAB = 0;
-    if (B.y - A.y != 0) {
-        deltaAB = (B.x - A.x) / (B.y - A.y);
-    }
-    double deltaBC = 0;
-    if (C.y - B.y != 0) {
-        deltaBC = (C.x - B.x) / (C.y - B.y);
-    }
-    double deltaAC = 0;
-    if (C.y - A.y != 0) {
-        deltaAC = (C.x - A.x) / (C.y - A.y);
-    }
-
-    double deltaABz = 0;
-    if (B.y - A.y != 0 && B.z != A.z) {
-        deltaABz = (B.z - A.z) / (B.y - A.y);
-    }
-    double deltaBCz = 0;
-    if (C.y - B.y != 0 && C.z != B.z) {
-        deltaBCz = (C.z - B.z) / (C.y - B.y);
-    }
-    double deltaACz = 0;
-    if (C.y - A.y != 0 && C.z != A.z) {
-        deltaACz = (C.z - A.z) / (C.y - A.y);
-    }
-
-    double deltaBCr = 0;
-    if (C.y != B.y && C.r != B.r) {
-        deltaBCr = (C.r - B.r) / (C.y - B.y);
-    }
-    double deltaACr = 0;
-    if (C.y != A.y && C.r != A.r) {
-        deltaACr = (C.r - A.r) / (C.y - A.y);
-    }
-    double deltaABr = 0;
-    if (B.y != A.y && B.r != A.r) {
-        deltaABr = (B.r - A.r) / (B.y - A.y);
-    }
-
-    double deltaBCg = 0;
-    if (C.y != B.y && C.g != B.g) {
-        deltaBCg = (C.g - B.g) / (C.y - B.y);
-    }
-    double deltaACg = 0;
-    if (C.y != A.y && C.g != A.g) {
-        deltaACg = (C.g - A.g) / (C.y - A.y);
-    }
-    double deltaABg = 0;
-    if (B.y != A.y && B.g != A.g) {
-        deltaABg = (B.g - A.g) / (B.y - A.y);
-    }
-
-    double deltaBCb = 0;
-    if (C.y != B.y && C.b != B.b) {
-        deltaBCb = (C.b - B.b) / (C.y - B.y);
-    }
-    double deltaACb = 0;
-    if (C.y != A.y && C.b != A.b) {
-        deltaACb = (C.b - A.b) / (C.y - A.y);
-    }
-    double deltaABb = 0;
-    if (B.y != A.y && B.b != A.b) {
-        deltaABb = (B.b - A.b) / (B.y - A.y);
-    }
-
-    double xl, xr;
-    double zl, zr;
-    double rl, rr;
-    double gl, gr;
-    double bl, br;
-
-    xl = xr = A.x;
-    zl = zr = A.z;
-    rl = rr = A.r;
-    gl = gr = A.g;
-    bl = br = A.b;
-
-    if (A.y - B.y == 0) {
-        xr = B.x;
-        zr = B.z;
-        rr = B.r;
-        gr = B.g;
-        br = B.b;
-    }
-
-    if (B.x < C.x && A.y != B.y) {
-        double tmp = deltaACr;
-        deltaACr = deltaABr;
-        deltaABr = tmp;
-
-        tmp = deltaACg;
-        deltaACg = deltaABg;
-        deltaABg = tmp;
-
-        tmp = deltaACb;
-        deltaACb = deltaABb;
-        deltaABb = tmp;
-
-        tmp = deltaACz;
-        deltaACz = deltaABz;
-        deltaABz = tmp;
-    }
-
-    for(double y = A.y; y <= C.y;y++) {
-        horizontal_line(xl, xr,y,zl, zr, rl, rr, gl, gr, bl, br);
-
-        if (y >= B.y){
-            xr += deltaBC;
-            xl += deltaAC;
-            zr += deltaBCz;
-            zl += deltaACz;
-            rr += deltaBCr;
-            rl += deltaACr;
-            gr += deltaBCg;
-            gl += deltaACg;
-            br += deltaBCb;
-            bl += deltaACb;
-
-        } else {
-            xr += deltaAB;
-            xl += deltaAC;
-            zr += deltaABz;
-            zl += deltaACz;
-            rr += deltaABr;
-            rl += deltaACr;
-            gr += deltaABg;
-            gl += deltaACg;
-            br += deltaABb;
-            bl += deltaACb;
-        }
-
-    }
 }
 
 
