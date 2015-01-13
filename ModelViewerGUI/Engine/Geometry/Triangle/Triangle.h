@@ -23,8 +23,6 @@
 
 - (instancetype)initWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3;
 
-- (void)calculateNormal;
-
 + (instancetype)triangleWithP1:(Vertex *)p1 p2:(Vertex *)p2 p3:(Vertex *)p3;
 
 - (void)calculateNormalKnowingPointInside:(Vector *)pointInside;
