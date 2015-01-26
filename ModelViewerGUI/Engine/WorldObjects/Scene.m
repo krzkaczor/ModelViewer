@@ -54,6 +54,7 @@
         return;
     }
 
+
     [self clearLight];
     [self.sceneModels enumerateObjectsUsingBlock:^(SceneModel* sceneModel, NSUInteger idx, BOOL *stop) {
         [self.lightSource lightModel:sceneModel forCamera:self.mainCamera];

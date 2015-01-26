@@ -41,7 +41,7 @@
 
 //        NSMutableArray *transformedTriangles = [NSMutableArray array];
         [sceneModel.model.triangles enumerateObjectsUsingBlock:^(Triangle* triangle, NSUInteger idx, BOOL *stop) {
-            [self.renderer renderTriangle:[[triangle luminate] applyTransformation:modelViewProjectionMatrix] forCamera:camera andScene:scene andTransformation:modelViewProjectionMatrix];
+            [self.renderer renderTriangle:[triangle applyTransformation:modelViewProjectionMatrix] forCamera:camera andScene:scene andTransformation:modelViewProjectionMatrix];
         }];
 
 //        [transformedTriangles sortUsingComparator:^NSComparisonResult(Triangle* t1, Triangle* t2) {

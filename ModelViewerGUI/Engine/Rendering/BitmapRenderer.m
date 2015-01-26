@@ -342,8 +342,8 @@ int triangles_rendered = 0;
 }
 
 - (void)lightPixel:(double)x and:(double)y and:(double)z and:(double)r and:(double)g and:(double)b {
-    YCMatrix *point = [[[Vector vectorWithX:x y:y z:z] applyTransformation:transformation] toMatrix];
-
+    YCMatrix *point = [[Vector vectorWithX:x y:y z:z] toMatrix];
+    double ambient = 0.1;
     if (scene.lightSource.position == nil)
         return;
 
@@ -354,13 +354,45 @@ int triangles_rendered = 0;
 
     Color* color = [currentTriangle findColorByBarLambdasL1:l1 L2:l2 L3:l3];
 
-    UInt8 r1 = (UInt8) (color.r * 255);
-    UInt8 g1 = (UInt8) (color.g * 255);
-    UInt8 b1 = (UInt8) (color.b * 255);
-//    r *= fmin(1 * fattr * (dot + s), 1);
-//    g *= fmin(1 * fattr * (dot + s), 1);
-//    b *= fmin(1 * fattr * (dot + s), 1);
-//
+    YCMatrix *normal = [currentTriangle findNormByBarLambdasL1:l1 L2:l2 L3:l3];
+    YCMatrix *vectorToLightSource = [[[scene.lightSource.position applyTransformation:transformation ] toMatrix] matrixBySubtracting:point];
+    YCMatrix *vectorToLightSourceNormalized = [vectorToLightSource normalizeVector];
+
+
+    YCMatrix* vectorToCamera = [[[[scene.mainCamera.position applyTransformation:transformation] toMatrix] matrixBySubtracting:point] normalizeVector];
+    YCMatrix* mirroredVectorToCamera = [[[normal matrixByMultiplyingWithScalar:2 * fmax([normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+
+    double fattr = 1;//1/(self.c2*r*r + self.c1 * r + self.c0);
+
+
+    double dot = fmax([normal dotWith:vectorToLightSourceNormalized], 0);
+
+    double v = fmax([vectorToLightSourceNormalized dotWith:mirroredVectorToCamera], 0);
+    double s = fmax(pow(v, 100), 0);
+    double l = 1 * fattr * (dot + s);
+
+
+//    r1 = (UInt8) fmin((r1 ) * r2, 255);
+//    g1 = (UInt8) fmin((g1 + 1) * g2, 255);
+//    b1 = (UInt8) fmin((b1 + 1) * b2, 255);
+
+    r = (color.r + ambient) * l * 255;
+    g = (color.g + ambient) * l * 255;
+    b = (color.b + ambient) * l * 255;
+    if (r > 255) {
+        r = 255;
+    }
+
+    if (g > 1 && s > 0) {
+        NSLog(@"s: %f", s);
+        NSLog(@"g: %f", g);
+    }
+
+
+    UInt8 r1 = (UInt8) (r);
+    UInt8 g1 = (UInt8) ((color.g + ambient) * l * 255);
+    UInt8 b1 = (UInt8) ((color.b + ambient) * l * 255);
+
     put_pixel(x, y, z, r1, g1, b1);
 }
 

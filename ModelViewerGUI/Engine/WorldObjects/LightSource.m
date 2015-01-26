@@ -16,6 +16,7 @@
 @implementation LightSource {
 
 }
+static LightSource *_instance;
 - (instancetype)initWithPosition:(Vector *)position color:(Color *)color {
     self = [super init];
     if (self) {
@@ -23,6 +24,7 @@
         self.color = color;
         _c2 = _c1 = _c0 = 0;
     }
+    _instance = self;
 
     return self;
 }
@@ -33,6 +35,17 @@
 
 + (LightSource *)sourceWithPosition:(Vector *)position {
     return [[self alloc] initWithPosition:position color:[Color colorWithR:1 g:1 b:1]];
+}
+
++ (LightSource *)instance {
+
+    @synchronized (self) {
+        if (_instance == nil) {
+            _instance = [[self alloc] init];
+        }
+    }
+
+    return _instance;
 }
 
 

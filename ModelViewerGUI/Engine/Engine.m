@@ -87,7 +87,7 @@
     NSLog(@"Succesfully calculated normals");
 
     [self.scene addSceneModel:sceneModel];
-    [self.scene putLight];
+//    [self.scene putLight];
     [self updateScreen];
 
     [self.vc updateModelInfo:(int) sceneModel.model.vertices.count and:(int) sceneModel.model.triangles.count];
@@ -96,7 +96,7 @@
 -(void)loadLightConfig:(NSString*)path {
     self.scene.lightSource = [self.lightSourceLoader loadLightSourceFromFile:path];
 
-    [self.scene putLight];
+//    [self.scene putLight];
     [self updateScreen];
 }
 
@@ -122,7 +122,7 @@
 - (void)lightMovedTo:(Vector *)clickedPoint onViewShownBy:(OrthographicCamera *)camera {
     self.scene.lightSource.position = [camera transform:self.scene.lightSource.position fromClickedVector:clickedPoint];
 
-    [self.scene putLight];
+//    [self.scene putLight];
     [self updateScreen];
 }
 
@@ -130,7 +130,7 @@
     self.mainCamera.position = [[camera transform:self.mainCamera.position fromClickedVector:clickedPoint] negate];
     [self.mainCamera updateMatrix];
 
-    [self.scene putLight];
+//    [self.scene putLight];
     [self updateScreen];
 }
 
@@ -139,7 +139,7 @@
     self.mainCamera.eyePosition = [[camera transform:self.mainCamera.eyePosition fromClickedVector:clickedPoint] negate];
     [self.mainCamera updateMatrix];
 
-    [self.scene putLight];
+//    [self.scene putLight];
     [self updateScreen];
 }
 

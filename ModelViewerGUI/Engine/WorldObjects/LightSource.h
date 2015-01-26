@@ -22,4 +22,7 @@
 + (instancetype)sourceWithPosition:(Vector *)position color:(Color *)color;
 
 + (LightSource *)sourceWithPosition:(Vector *)vector;
+
++ (LightSource *)instance;
+
 @end
