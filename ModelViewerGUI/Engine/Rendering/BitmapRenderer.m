@@ -326,15 +326,13 @@ int triangles_rendered = 0;
         x = x2;
         x2 = tmp;
     }
-    x = floor(x);
-    x2 = ceil(x2);
 
     double dr = (r2 - r1)/fabs(x2 - x);
     double dg = (g2 - g1)/fabs(x2 - x);
     double db = (b2 - b1)/fabs(x2 - x);
     double dz = (zr - zl)/fabs(x2 - x);
 
-    for (;x <= x2;x++) {
+    for (;x < x2;x++) {
         [self lightPixel:x and:y and:zl and:r1 and:g1 and:b1];
         r1 += dr;
         g1 += dg;
@@ -349,29 +347,21 @@ int triangles_rendered = 0;
     if (scene.lightSource.position == nil)
         return;
 
-    YCMatrix *vectorToLightSource = [[scene.lightSource.position toMatrix] matrixBySubtracting:point];
-    YCMatrix *vectorToLightSourceNormalized = [vectorToLightSource normalizeVector];
-    YCMatrix* normal = [currentTriangle getNormalVectorOnX:x y:y];
+    double* lambdas = [currentTriangle findBarycentricX:x y:y];
+    double l1 = lambdas[0];
+    double l2 = lambdas[1];
+    double l3 = lambdas[2];
 
-    YCMatrix* vectorToCamera = [[[scene.mainCamera.position toMatrix] matrixBySubtracting:point] normalizeVector];
-    YCMatrix* mirroredVectorToCamera = [[[normal matrixByMultiplyingWithScalar:2 * fmax([normal dotWith:vectorToCamera],0)] matrixBySubtracting:vectorToCamera] normalizeVector];
+    Color* color = [currentTriangle findColorByBarLambdasL1:l1 L2:l2 L3:l3];
 
-
-    //double dist = [vectorToLightSource vectorLength];
-    double fattr = 1;//1/(self.c2*r*r + self.c1 * r + self.c0);
-
-    //diffuse
-
-    double dot = fmax([normal dotWith:vectorToLightSourceNormalized], 0);
-
-    double v = fmax([vectorToLightSourceNormalized dotWith:mirroredVectorToCamera], 0);
-    double s = fmax(pow(v, 1000), 0);
-
-    r *= fmin(1 * fattr * (dot + s), 1);
-    g *= fmin(1 * fattr * (dot + s), 1);
-    b *= fmin(1 * fattr * (dot + s), 1);
-
-    put_pixel(x, y, z, r, g, b);
+    UInt8 r1 = (UInt8) (color.r * 255);
+    UInt8 g1 = (UInt8) (color.g * 255);
+    UInt8 b1 = (UInt8) (color.b * 255);
+//    r *= fmin(1 * fattr * (dot + s), 1);
+//    g *= fmin(1 * fattr * (dot + s), 1);
+//    b *= fmin(1 * fattr * (dot + s), 1);
+//
+    put_pixel(x, y, z, r1, g1, b1);
 }
 
 

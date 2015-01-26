@@ -16,6 +16,11 @@
 - (Color *)normalize;
 
 - (NSString *)description;
+
+- (YCMatrix *)toMatrix;
+
++ (Color *)colorFromMatrix:(YCMatrix *)matrix;
+
 + (Color *)red;
 
 + (Color *)black;

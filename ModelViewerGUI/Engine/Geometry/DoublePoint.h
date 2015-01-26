@@ -5,10 +5,10 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "Transformable.h"
+#import "Color.h"
 
 @class Vector;
 @class YCMatrix;
-@class Color;
 
 @interface DoublePoint : NSObject <NSCopying, Transformable>
 

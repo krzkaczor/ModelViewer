@@ -74,8 +74,8 @@
 
     id<Projection> perspectiveProjection = [PerspectiveProjection projectionWithN:1 f:7 fov:M_PI / 2];
     self.mainCamera = [Camera cameraWithHeight:400 width:400 projection:perspectiveProjection];
-    self.mainCamera.position = [Vector vectorWithX:0 y:0 z:-200];
-    self.mainCamera.eyePosition = [Vector vectorWithX:0 y:0 z:-250];
+    self.mainCamera.position = [Vector vectorWithX:0 y:0 z:-80];
+    self.mainCamera.eyePosition = [Vector vectorWithX:0 y:0 z:-100];
     [self.mainCamera updateMatrix];
 };
 

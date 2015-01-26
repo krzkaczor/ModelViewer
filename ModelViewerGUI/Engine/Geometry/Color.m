@@ -3,6 +3,7 @@
 //
 
 #import <objc/objc-api.h>
+#import <YCMatrix/YCMatrix.h>
 #import "Color.h"
 
 
@@ -50,7 +51,6 @@
     return description;
 }
 
-
 + (Color *)red {
     return [Color colorWithR:1 g:0 b:0];
 }
@@ -70,4 +70,18 @@
 + (Color *)blue {
     return [Color colorWithR:0 g:0 b:1];
 }
+
+- (YCMatrix*)toMatrix {
+    double matrixValues [] = {self.r, self.g, self.b};
+    return [YCMatrix matrixFromArray:matrixValues Rows:3 Columns:1];
+}
+
++ (Color*)colorFromMatrix:(YCMatrix*)matrix {
+    double x = [matrix valueAtRow:0 Column:0];
+    double y = [matrix valueAtRow:1 Column:0];
+    double z = [matrix valueAtRow:2 Column:0];
+
+    return [Color colorWithR:(float)x g:(float)y b:(float)z];
+}
+
 @end

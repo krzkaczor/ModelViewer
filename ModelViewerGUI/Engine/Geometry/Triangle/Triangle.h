@@ -37,9 +37,19 @@
 
 - (NSArray*)split;
 
-- (void)setupBarycentricCoordinateSystem;
+//- (void)setupBarycentricCoordinateSystem;
 
-- (YCMatrix *)getNormalVectorOnX:(double)x y:(double)y;
+//- (YCMatrix *)getNormalVectorOnX:(double)x y:(double)y;
+
+- (Color *)getColorVectorOnX:(double)x y:(double)y;
+
+- (double *)findBarycentricX:(double)px y:(double)py;
+
+- (Color *)findColorByBarLambdas:(double *)lambdas;
 
 - (id)copyWithZone:(NSZone *)zone;
+
+- (Color *)findColorByBarLambdasL1:(double)l1 L2:(double)l2 L3:(double)l3;
+
+- (YCMatrix *)findNormByBarLambdasL1:(double)l1 L2:(double)l2 L3:(double)l3;
 @end
